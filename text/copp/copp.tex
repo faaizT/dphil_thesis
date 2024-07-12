@@ -500,14 +500,13 @@ In this section we provide theoretical guarantees on marginal coverage $\tarprob
 % Using the weighted exchangeability property between the calibration and test data from Lemma \ref{exchangeability_lemma}, we extend Theorem 2 in \cite{tibshirani2020conformal} to our setting.
 
 \begin{proposition}\label{coverage_theorem}
-Let $\{X_i, Y_i\}_{i =1}^n \overset{\textup{i.i.d.}}{\sim}P^{\pi^b}_{X,Y}$ be the calibration data. For any score function $s$, and any $\alpha \in (0,1)$, define the conformal predictive interval at a point $x\in \mathbb{R}^d$ as $\hat{C}_n(x) \coloneqq \left\{y \in \mathbb{R}: s(x, y) \leq \eta(x,y) \right\}$
+Let $\{X_i, Y_i\}_{i =1}^n \overset{\textup{i.i.d.}}{\sim}P^{\pi^b}_{X,Y}$ be the calibration data. For any score function $s$, and any $\alpha \in (0,1)$, define the conformal predictive interval at a point $x\in \mathbb{R}^d$ as 
+$$\hat{C}_n(x) \coloneqq \left\{y \in \mathbb{R}: s(x, y) \leq \eta(x,y) \right\}$$
 where $\eta(x, y) \coloneqq \text{Quantile}_{1-\alpha}( \hat{F}_{n}^{x, y})$, and $\hat{F}_{n}^{x, y}$ is as defined in \eqref{score-dist-pshift} with exact weights $w(x,y)$.
 If $P^{\pi^*}(y| x)$ is absolutely continuous w.r.t. $P^{\pi^b}(y| x)$,
 % If the non-conformity scores $\{V_i\}_{i=1}^n$ have no ties almost surely, and $P^{\pi^*}(y\mid x)$ is absolutely continuous w.r.t.\ $P^{\pi^b}(y\mid x)$,
 then $\hat{C}_{n}$ satisfies
-$
-    \tarprob(Y \in \hat{C}_{n}(X)) \geq 1-\alpha \nonumber.
-$
+$$\tarprob(Y \in \hat{C}_{n}(X)) \geq 1-\alpha \nonumber.$$
 % If we additionally have that for some $r > 1$
 % \[
 % (\expb[w(X,Y)^r])^{1/r} \leq M_r < \infty,
@@ -579,7 +578,7 @@ where $\eta(x, y) \coloneqq \text{Quantile}_{1-\alpha}( \hat{F}_{n}^{x, y})$, an
 % Proposition 1:
 % Theorem 1 assumes that we know the weights, this will very likely not be true in most real world settings. Hence, we will need to approximate the weights w(X, Y) using the available training data. In the case of CP under covariate shift, \cite{lei2020conformal} showed that even when the weights are approximated i.e. $\hat{w}(\cdot) = w(\cdot)$, we can still provide both upper and lower bounds on the coverage, albeit slightly modified with an error term $\delta_{\omega}$see Eq.([]). We show that this result be straightforwardly extended to our setting.
 % As we have already pointed out, our setting is fundamentally different from the covariate shift setting. In our setting, it is the conditional distribution $P(Y\mid X)$ that is being shifted between calibration and test data, as opposed to the covariate distribution $P(X)$. However, 
-Proposition \ref{coverage_theorem} assumes  exact weights $w(x, y)$, which is usually not the case. For CP under covariate shift, \cite{lei2020conformal} showed that even when the weights are approximated, i.e., $\hat{w}(x, y) \neq w(x, y)$, we can still provide finite-sample upper and lower bounds on the coverage, albeit with an error term $\Delta_w$ (see \eqref{delta_w}). Next, we extend this result to our setting when the weight function $w(x, y)$ is approximated as in Sec. \ref{sec:weights}.
+Proposition \ref{coverage_theorem} assumes  exact weights $w(x, y)$, which is usually not the case. For CP under covariate shift, \cite{lei2020conformal} showed that even when the weights are approximated, i.e., $\hat{w}(x, y) \neq w(x, y)$, we can still provide finite-sample upper and lower bounds on the coverage, albeit with an error term $\Delta_w$ (defined in \eqref{delta_w}). Next, we extend this result to our setting when the weight function $w(x, y)$ is approximated as in Section \ref{sec:weights}.
 
 \begin{proposition}\label{prop2}
 Let $\hat{C}_n$ be the conformal predictive intervals obtained as in Proposition \ref{coverage_theorem}, with weights $w(x,y)$ replaced by approximate weights $\hat{w}(x,y) = \hat{w}(x,y;\mathcal{D}_{tr})$, where the training data, $\mathcal{D}_{tr}$, is fixed. Assume that $\hat{w}(x, y)$ satisfies $(\expb[\hat{w}(X,Y)^r])^{1/r} \leq M_r < \infty$ for some $r \geq 2$.

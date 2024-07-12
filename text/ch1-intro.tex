@@ -26,7 +26,7 @@ Before we go into the specifics of these challenges, we introduce the framework 
 % In the following section, we specifically consider the setting of contextual bandits which provides a powerful framework for 
 % will delve deeper into the specifics of these challenges, explore the limitations of existing approaches, and showcase the contributions made by the included research papers.
 
-\section{Contextual Bandits}
+\section{Contextual bandits}
 Contextual bandits provide a powerful framework for tackling decision-making problems where the effectiveness of an action depends on the specific context in which it is chosen. Imagine a doctor deciding on the best treatment for a patient. The optimal treatment might depend on various factors like the patient's age, medical history, and current symptoms. Contextual bandits allow us to model these complex decision-making scenarios by incorporating the notion of context.
 
 In this setting, we use covariates $X \in \mathcal{X}$ to denote features which encapsulate the contextual information such as the patient's age and medical history, we use $A \in \mathcal{A}$ to represent the action chosen by some real-world agent (such as a doctor), and $Y \in \mathcal{Y}$ to denote the outcome/reward observed as a result of taking action $A$, for example, $Y \in \{0, 1\}$ might represent whether a patient survives ($Y=1$) or not ($Y=0$). The goal of a learner in contextual bandits is to choose actions $A$ for a context $X$ which maximises the reward $Y$. 
@@ -37,15 +37,15 @@ In this setting, we use covariates $X \in \mathcal{X}$ to denote features which 
  To make the causal dependence of the action on the outcome explicit, we can reformulate the contextual bandits setting using the \emph{potential outcomes framework}. Here, for a given action $a \in \mathcal{A}$ we denote the random variable $Y(a)$ (also known as the potential outcome), as the outcome that \emph{would} occur if the action $a$ is chosen. As random variables, $Y(a)$ may also depend on the initial covariates $X$ and additional randomness which is not explicitly modelled. Moreover, this notation can be reconciled with the conventional contextual bandits setting above by noting that, in the real world where an agent chooses action $A \in \mathcal{A}$ for context $X$, the outcome $Y$ observed is explicitly expressed as $Y(A)$, i.e. $Y=Y(A)$ in the real world. This corresponds to the standard consistency assumption in causal inference and intuitively means that the potential outcome $Y(a)$ is observed in the data when the agent actually chose $A=a$. 
 % \end{importantresultwithtitle}
 
-Contextual bandits encapsulate the single-decision regimes where, for each observed context, we make a single action and observe the resulting outcome. This is analogous to a doctor choosing a single treatment for a patient based on their current state. However, many real-world decision-making scenarios involve multiple interventions over time, where each action not only affects the immediate outcome but also influences the context for future decisions. To capture this complexity, we introduce the concept of Dynamic Treatment Regimes (DTRs) in the following section. DTRs extend the framework of contextual bandits to handle sequential decision-making problems, allowing us to model more complex scenarios where interventions unfold over time and the context evolves dynamically.
+Contextual bandits encapsulate the single-decision regimes where, for each observed context, we make a single action and observe the resulting outcome. This is analogous to a doctor choosing a single treatment for a patient based on their current state. However, many real-world decision-making scenarios involve multiple interventions over time, where each action not only affects the immediate outcome but also influences the context for future decisions. To capture this complexity, we introduce the concept of dynamic treatment regimes (DTRs) in the following section. DTRs extend the framework of contextual bandits to handle sequential decision-making problems, allowing us to model more complex scenarios where interventions unfold over time and the context evolves dynamically.
 
-\section{Dynamic Treatment Regimes}
+\section{Dynamic treatment regimes}
 We consider a setting with a fixed number of decisions per episode (i.e., a fixed time horizon) $T \in \{1, 2, \ldots\}$. For each $t\in \{0, \ldots, T\}$, we assume that the process gives rise to an observation at time $t$, denoted by $X_t$ which takes values in some space $\mathcal{X}_t \coloneqq \R^{\Xspacedim_\tx}$. 
 % Moreover, the process can be influenced by some action at time $t \in \{1, \ldots, T\}$ which takes values in some space $\mathcal{A}_t$. 
 Moreover, at time $t\in  \{1, \ldots, T\}$ a real-world agent (such as a doctor) chooses an action $A_t$ which takes values in some space $\mathcal{A}_t$. The agent's choice of $A_t$ may depend on the historical observations $(X_0, \ldots, X_{t-1})$ or any additional information not captured in historical observations that the agent can access. For example, in a medical context, the observations may consist of a patient's vital signs, and the actions may consist of possible treatments or interventions that the doctor chooses based on patient history.
 % In the real world, the action at time $t$ may be chosen by an agent (such as a doctor) based on the . 
 The actions taken up till time $t$, i.e. $(A_1, A_2, \ldots, A_t)$ can influence the future observations $(X_t, X_{t+1}, \ldots, X_T)$. 
-This setting describes Dynamic Treatment Regimes, of which the contextual bandits are a special case when $T=1$. 
+This setting describes dynamic treatment regimes, of which the contextual bandits are a special case when $T=1$. 
 % To make this concrete, in a robotics context, the observations may consist of all the readings of all the sensors of the robot, and the actions may consist of commands that can be input by an external user. In a medical context, the observations may consist of the vital signs of a patient, and the actions may consist of possible treatments or interventions. 
 
 % \begin{importantresultwithtitle}[title=Causal formulation]\noindent
@@ -67,7 +67,7 @@ Just like in the contextual bandits setting, this causal notation can be reconci
 
 Now that we have outlined the single and multiple decision frameworks, we are now equipped to formally define the off-policy evaluation setting which is fundamental to the problems considered in this thesis.  
 
-\section{Off-Policy Evaluation}
+\section{Off-policy evaluation}
 Off-policy evaluation (OPE) tackles a crucial challenge in decision-making: assessing the performance of a new policy using data collected under a different policy. This is particularly valuable when conducting controlled experiments with the new policy is impractical or unethical. In what follows, we formally define the OPE problem in contextual bandits which will set up the challenges tackled in Chapters \ref{ch:3-mr} and \ref{ch:4-copp} of this thesis. 
 
 \subsection{Off-policy evaluation in contextual bandits}
@@ -147,7 +147,7 @@ where
 Here, $\hat{\eta}(\tar)$ is referred to as the Direct Method (DM) as it uses $\hat{\mu}(a, x)$ directly to estimate target policy value. 
 
 
-% \subsection{OPE in Dynamic Treatment Regimes}
+% \subsection{OPE in dynamic treatment regimes}
 % - maybe skip this
 
 \section{Limitations of existing OPE methods}
@@ -336,7 +336,7 @@ In this chapter, we address these limitations by considering a novel application
 Given data collected under a behavioral policy, we propose \emph{conformal off-policy prediction} (COPP), which can output reliable predictive intervals for the outcome under a new target policy. We provide theoretical finite-sample guarantees without making any additional assumptions beyond the standard contextual bandit setup, and empirically demonstrate the utility of COPP compared with existing methods on synthetic and real-world data.
 
 \paragraph*{Chapter \ref*{ch:5-causal}: Causal considerations \citep{cornish2023causalfalsificationdigitaltwins}}
-In this chapter we consider Dynamic Treatment Regimes (DTRs), where available observational data may suffer from unmeasured confounding. 
+In this chapter we consider dynamic treatment regimes (DTRs), where available observational data may suffer from unmeasured confounding. 
 As mentioned in Section \ref{subsec:unmeasured-confounding}, fundamental results from causal inference mean that in this setting the interventional behaviour of outcomes, $\Law[\X_{\tx}(\ax_{1:\tx})]$, is unidentifiable from the observational distribution.  
 To address this challenge, we provide a novel set of longitudinal causal bounds that remain valid under arbitrary unmeasured confounding.
 
@@ -361,7 +361,7 @@ In this chapter, we also discuss some of the limitations of our proposed methodo
 In this section, we provide an overview of the research conducted during the doctoral studies by listing the papers which are included in this thesis, as well those which have been omitted.
 
 \subsection{Works included in the thesis}
-Each chapter of this thesis is based on a paper. These papers are listed in chronological order here for completeness:
+Each chapter of this thesis is based on a paper. These papers are listed in chronological order here for completeness.
 \begin{enumerate}
     \item \textbf{Muhammad Faaiz Taufiq}*, Jean-Francois Ton*, Rob Cornish, Yee Whye Teh, and Arnaud Doucet.
     Conformal Off-Policy Prediction in Contextual Bandits. In \textit{\textcolor{purple}{Advances in Neural Information Processing
