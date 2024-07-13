@@ -178,7 +178,7 @@ title={#2},
 % % before upper={\vspace{-\baselineskip}}, % Remove the vertical space before the content
 % }
 \newtcolorbox{importantresultwithtitle}[2][]{
-  breakable,
+  % breakable,
   colback=solarized@cyan!7!white,
   colframe=solarized@cyan!7,
   colbacktitle=solarized@cyan,
@@ -646,6 +646,6 @@ colframe=solarized@violet,parbox, left=0.5mm, right=0.5mm,top=0.5mm,bottom=0.5mm
 \newboolean{compilePapers}
 \newboolean{compileAppendices}
 % Set the flag to true or false
-\setboolean{compilePapers}{false}% or \setboolean{myflag}{false}
+\setboolean{compilePapers}{true}% or \setboolean{myflag}{false}
 
-\setboolean{compileAppendices}{false}
+\setboolean{compileAppendices}{true}

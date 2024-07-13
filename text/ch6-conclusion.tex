@@ -26,7 +26,7 @@ To be more specific, below we provide a brief summary of the challenges tackled 
 Here, we outline some of the limitations of the methodologies presented in this thesis. 
 
 \paragraph*{Distributional shift in data generating mechanism}
-Our methodologies highlighted in this thesis implicitly assume that the data generating process remains unchanged between testing and deployment time. 
+Our methodologies highlighted in this thesis implicitly assume that the data generating process remains unchanged between testing and deployment times. 
 Technically, for contextual bandits this assumption means that the conditional distribution of $Y$ given $(X, A)$ does not shift when the target policy is deployed. 
 If this distribution changes at deployment time, then so too does the distribution of outcomes that \emph{would} be observed under the target policy. 
 If this shift is significant enough our methodologies may yield misleading results.  
@@ -39,14 +39,14 @@ While we outline straightforward regression methodologies for estimating these i
 Increasing data dimensionality may pose additional challenges for our solutions, especially those presented in Chapter \ref*{ch:4-copp} and \ref*{ch:5-causal}. 
 For example, in Chapter \ref*{ch:4-copp}, the estimation of importance ratios for our conformal off-policy prediction (COPP) algorithm may become more challenging when $(X, A)$ is high dimensional, thereby yielding biased results.
 Likewise in Chapter \ref*{ch:5-causal}, the procedure we used in our case study to choose the hypothesis parameters was ad hoc, which may not scale to high dimensional datasets.
-For scalability, it would likely be necessary to obtain via a more automated procedure.
+For scalability, it would likely be necessary to obtain these parameters via a more automated procedure.
 
 \section{Directions for future work}
 Our work in this thesis opens up several interesting avenues for future research. We highlight some of these below.
 
-\paragraph*{Application to off-policy learning}
+\paragraph*{Off-policy learning}
 This thesis has largely focused on robust off-policy assessment methodologies. Howoever, our findings are highly applicable to robust policy optimisation problems, where the data collected using an `old’ policy is used to learn a new policy. 
-Proximal Policy Optimisation (PPO) \cite{schulman2017proximal} is one such approach which has gained immense popularity and has been applied to reinforcement learning with human feedback (RLHF) \citep{lambert2022illustrating}. 
+Proximal Policy Optimisation (PPO) \citep{schulman2017proximal} is one such approach which has gained immense popularity and has been applied to reinforcement learning with human feedback (RLHF) \citep{lambert2022illustrating}. 
 We believe that our MR estimator proposed in Chapter \ref*{ch:3-mr} applied to these methodologies could lead to improvements in the stability and convergence
 of these optimisation schemes, given its favourable variance properties. 
 Similarly, our conformal off-policy prediction (COPP) algorithm when applied to off-policy learning could be a
@@ -57,14 +57,14 @@ Chapters \ref*{ch:3-mr} and \ref*{ch:4-copp} of this thesis specifically conside
 This setting offers a strong foundational framework for conducting rigorous theoretical and empirical analyses, 
 however, it would be interesting to extend the application of these methodologies to sequential decision frameworks.
 While some follow-up works have attempted to apply our COPP algorithm to Markov Decision Processes \citep{foffano2023conformal, zhang2023conformal, kuipers2024conformal}, the obtained confidence sets become increasingly conservative with increasing time horizon. 
-It is worth exploring methodologies for obtaining intervals which remain valid and informative even in sequential decision settings with large time horizon.  
+It is worth exploring methodologies for obtaining intervals which remain valid and informative even in sequential decision settings with large time horizons.  
 
 % \paragraph*{}
 
-\paragraph*{Extensions to transfer learning}
+\paragraph*{Application to transfer learning}
 Finally, our solutions in Chapters \ref*{ch:3-mr} and \ref*{ch:4-copp} involves learning importance ratios which may also be of interest in other domains beyond OPE. 
 One such area is \emph{transfer learning} which considers cases where the testing data distribution is different from the training data distribution. 
 Classical transfer learning methods rely on importance weighting to handle the distribution mismatch \citep{SHIMODAIRA2000Improving, sugiyama2007covariate, huang2007correcting, sugiyama2008direct,lu2021rethinking}. 
-Our proposed regression techniques may be of interest for obtaining these weights efficiently in high-dimensional datasets.  
+Our proposed regression techniques may be of interest for obtaining these weights efficiently in high-dimensional datasets in this setting.  
 
 % While regression techniques have been used for importance weight estimation before, our methodology 
