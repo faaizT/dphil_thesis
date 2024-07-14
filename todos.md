@@ -1,6 +1,5 @@
 # To-dos
 
-- heading capitalization consistency
 - add contributions sections after each paragraph
 
 ### Done
@@ -11,3 +10,4 @@
 - update DT paper? --> done (subject to further changes)
 - write the conclusion --> done
 - fix the first part of intro --> done
+- heading capitalization consistency --> done

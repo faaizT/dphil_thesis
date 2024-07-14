@@ -181,7 +181,7 @@ In summary, our contributions are:
 (ii) We provide theoretical guarantees for COPP, including finite-sample guarantees on marginal coverage and asymptotic guarantees on conditional coverage.
 (iii) We show empirically that COPP outperforms standard methods in terms of coverage and predictive interval width when assessing new policies. 
 
-\subsection{Problem Setup}\label{sec:problem_setup}
+\subsection{Problem setup}\label{sec:problem_setup}
 
 \begin{comment}
 % \begin{wrapfigure}{r}{0.22\textwidth}
@@ -271,7 +271,7 @@ Conformal prediction \citep{vovk2005algorithmic, shafer2008tutorial} is a method
 % For illustrative purposes, we will consider the former in this section.
 % we have considered a standard regression problem in this section.
 
-\subsection{Standard Conformal Prediction} 
+\subsection{Standard conformal prediction} 
 % Conformal prediction \cite{shafer2008tutorial, vovk2005algorithmic} is a methodology used to compute distribution-free prediction intervals. It was classically designed for regression and classification problems.       
 
 % We split the available observations $\mathcal{D}_{obs}=\{X_i,Y_i \}_{i=1}^{n_{obs}}$ into a \emph{calibration} set $\mathcal{D}_{cal} = \{X_i, Y_i\}_{i\in \mathcal{I}_{cal}}$, where $\mathcal{I}_{cal}=\{1,\dots,n\}$, and a \emph{training} set $\mathcal{D}_{tr} = \{X_i^0, Y_i^0\}_{i\in \mathcal{I}_{tr}}$ where $\mathcal{I}_{tr}=\{1,\dots,N\}$.
@@ -325,7 +325,7 @@ Intuitively, for roughly $100\cdot(1-\alpha) \%$ of the calibration data, the sc
 %   \label{cp}
 % \end{algorithm}
 
-\subsection{Conformal Prediction under covariate shift}\label{CP_cov_shift}
+\subsection{Conformal prediction under covariate shift}\label{CP_cov_shift}
 \cite{tibshirani2020conformal} extend the CP framework beyond the setting of exchangeable data, by constructing valid intervals even when the calibration data and test data are not drawn from the same distribution. The authors focus on the \textit{covariate shift} scenario i.e. the distribution of the covariates changes at test time:
 \begin{align}
     &(X_i, Y_i) \overset{\textup{i.i.d}}{\sim} P_{X,Y} = P_X \times P_{Y\mid X}, \quad i = 1, \dots, n \nonumber \\
@@ -482,8 +482,8 @@ where $A_k\sim \hat{\pi}^b(\cdot \mid x),~ A_k^* \sim  \pi^*(\cdot \mid x)$ and 
 
 % Having established this relationship between different policies and the conditional distribution, we will proof in the following section that we can retain the theoretical finite-sample coverage guarantees using our modified conformal prediction framework. 
 
-\section{Theoretical Guarantees}\label{sec:theory}
-\subsection{Marginal Coverage}
+\section{Theoretical guarantees}\label{sec:theory}
+\subsection{Marginal coverage}
 
 In this section we provide theoretical guarantees on marginal coverage $\tarprob(Y \in \hat{C}_n(X))$ for the cases where the weights $w(x, y)$ are known exactly as well as when they are estimated. Using the idea of \textit{weighted exchangeability}, we extend \cite[Theorem 2]{tibshirani2020conformal} to our setting. 
 % \begin{definition}[Weighted exchangeability]\label{exchangeability}
@@ -615,7 +615,7 @@ Then, we have
 \end{comment}
 Proposition \ref{prop2} provides finite-sample guarantees with approximate weights $\hat{w}(\cdot, \cdot)$. Note that if the weights are known exactly then the above proposition can be simplified by setting $\Delta_w =0$. In the case where the weight function is estimated \textit{consistently}, we recover the exact coverage asymptotically. A natural question to ask is whether the consistency of $\hat{w}(x, y)$ implies the consistency of $\hat{P}(y|x, a)$; in which case one could use $\hat{P}(y|x, a)$ directly to construct the intervals. We prove that this is not the case in general and provide detailed discussion in Appendix \ref{sec:weights_estimation_app}. 
 
-\subsection{Conditional Coverage}\label{sec:cond_cov}
+\subsection{Conditional coverage}\label{sec:cond_cov}
 So far we only considered marginal coverage \eqref{guarantee}, where the probability is over both $X$ and $Y$. Here, we provide results on conditional coverage $\p_{Y \sim P^{\pi^*}_{Y \mid X}}(Y \in \hat{C}_n(X) \mid X)$ which is a strictly stronger notion of coverage than marginal coverage \citep{foygel2021limits}. \cite{vovk2012, lei2014distribution} prove that exact conditional coverage cannot be achieved without making additional assumptions. However, we show that, in the case where $Y$ is a continuous random variable and we can estimate the quantiles of $P^{\pi^*}_{Y \mid X}$ consistently, we get an approximate conditional coverage guarantee using the below proposition.
 % \begin{corollary}\label{corollary1}
 % Let $N, n$ be the number of training and calibration data respectively, $\hat{w}_N(x, y)$ be an estimate of $w(x, y) = P^{\pi^*}(Y\mid X)/P^{\pi^b}(Y\mid X)$ and $\hat{C}_{N,n}(x)$ be the conformal interval resulting from algorithm \ref{cp_conditional_shift}. Assume that $(\mathbb{E}_{\pi^b}[\hat{w}(X,Y)^r])^{1/r} \leq M_r < \infty$. If the following assumption holds:
@@ -627,7 +627,7 @@ So far we only considered marginal coverage \eqref{guarantee}, where the probabi
 % \lim_{N, n \rightarrow \infty} \mathbb{P}_{(X,Y)\sim P^{\pi^*}}(Y\in \hat{C}_{N, n}(X)) = 1- \alpha
 % \]
 % \end{corollary}
-\begin{proposition}[Asymptotic Conditional Coverage]\label{conditional-res}
+\begin{proposition}[Asymptotic conditional coverage]\label{conditional-res}
 Let $m, n$ be the number of training and calibration data respectively, $\hat{q}_{\beta, m} (x)= \hat{q}_{\beta, m} (x; \mathcal{D}_{tr})$ be an estimate of the $\beta$-th conditional quantile $q_\beta (x)$ of $P^{\pi^*}_{Y \mid X=x}$, $\hat{w}_m(x, y) = \hat{w}_m(x, y; \mathcal{D}_{tr})$ be an estimate of $w(x,y)$ and $\hat{C}_{m,n}(x)$ be the conformal interval resulting from algorithm \ref{cp_covariate_shift} with score function $s(x, y) = \max \{y - \hat{q}_{\alpha_{hi}} (x), \hat{q}_{\alpha_{lo}} (x) - y \}$ where $\alpha_{hi} - \alpha_{lo} = 1 - \alpha$. Assume that the following hold:
 \begin{enumerate}
     \item $\lim_{m \rightarrow \infty} \expb |\hat{w}_{m}(X, Y) -  w(X, Y)|  = 0$.
@@ -663,9 +663,9 @@ However, we can use COPP on each subgroup separately to obtain group balanced co
 \end{importantresultwithtitle}
 
 
-\section{Related Work}\label{sec:related_work}
+\section{Related work}\label{sec:related_work}
 % \subsection{Works exploring conformal prediction under distribution shift}
-\textbf{Conformal Prediction:} A number of works have explored the use of CP under distribution shift. The works of \cite{tibshirani2020conformal} and \cite{lei2020conformal} are particularly notable as they extend CP to the general setting of \textit{weighted exchangeability}.  In particular, \cite{lei2020conformal} use CP for counterfactual inference where the goal is to obtain predictive intervals on the outcomes of treatment and control groups. The authors formulate the counterfactual setting into that of covariate shift in the input space $\mathcal{X}$ and show that under certain assumptions, finite-sample coverage can be guaranteed.
+\paragraph{Conformal prediction} A number of works have explored the use of CP under distribution shift. The works of \cite{tibshirani2020conformal} and \cite{lei2020conformal} are particularly notable as they extend CP to the general setting of \textit{weighted exchangeability}.  In particular, \cite{lei2020conformal} use CP for counterfactual inference where the goal is to obtain predictive intervals on the outcomes of treatment and control groups. The authors formulate the counterfactual setting into that of covariate shift in the input space $\mathcal{X}$ and show that under certain assumptions, finite-sample coverage can be guaranteed.
 
 Fundamentally, our work differs from \cite{lei2020conformal} by framing the problem as a shift in the conditional $P_{Y\mid X}$ rather than as a shift in the marginal $P_X$.
 The resulting methodology we obtain from this then differs from \cite{lei2020conformal} in a variety of ways.
@@ -710,7 +710,7 @@ See \ref{sec:comp_lc} for the experimental results comparing COPP to \cite{lei20
 % While both of our works diverge from the standard covariate shift in the input distribution $P(X)$, we are fundamentally solving different problems, In our paper we focus on the off-policy assessment whereas [refs] are concerned about ITE under unobserved confounding effects.
 % \subsection{Uncertainty quantification in contextual bandits}
 
-\textbf{Uncertainty in contextual bandits:} Recall from the introduction, that most works in this area have focused on quantifying uncertainty in expected outcome (policy value) \citep{doubly-robust, uncertainty5}. Despite providing finite sample-guarantees on the expectation, these methods do not account for the variability in the outcome itself and in general are not adaptive w.r.t. $X$, i.e. they do not satisfy properties (i), (ii) from Sec. \ref{sec:problem_setup}. \cite{risk-assessment, chandak2021universal} on the other hand, propose off-policy assessment algorithms for contextual bandits w.r.t. a more general class of risk objectives such as Mean, CVaR etc. Their methodologies can be applied to our problem, to construct predictive intervals for off-policy outcomes. However, unlike COPP, these intervals are not adaptive w.r.t. $X$, i.e. do not satisfy property (i) in Sec. \ref{sec:problem_setup}. Moreover, they do not provide upper bounds on coverage probability, which often leads to overly conservative intervals, as shown in our experiments. Lastly, while distributional perspective has been explored in reinforcement learning \citep{distributional-rl}, no finite sample-guarantees are available to the best of our knowledge.
+\paragraph{Uncertainty in contextual bandits} Recall from the introduction, that most works in this area have focused on quantifying uncertainty in expected outcome (policy value) \citep{doubly-robust, uncertainty5}. Despite providing finite sample-guarantees on the expectation, these methods do not account for the variability in the outcome itself and in general are not adaptive w.r.t. $X$, i.e. they do not satisfy properties (i), (ii) from Sec. \ref{sec:problem_setup}. \cite{risk-assessment, chandak2021universal} on the other hand, propose off-policy assessment algorithms for contextual bandits w.r.t. a more general class of risk objectives such as Mean, CVaR etc. Their methodologies can be applied to our problem, to construct predictive intervals for off-policy outcomes. However, unlike COPP, these intervals are not adaptive w.r.t. $X$, i.e. do not satisfy property (i) in Sec. \ref{sec:problem_setup}. Moreover, they do not provide upper bounds on coverage probability, which often leads to overly conservative intervals, as shown in our experiments. Lastly, while distributional perspective has been explored in reinforcement learning \citep{distributional-rl}, no finite sample-guarantees are available to the best of our knowledge.
 % The authors provide an estimator for the target policy's CDF of outcomes with finite-sample guarantees, which can subsequently be used to construct approximate predictive intervals on the outcome under target policy. However, \cite{risk-assessment} do not provide upper bounds on the coverage probability, and the intervals obtained are not adaptive w.r.t. $x$. This leads to overly conservative intervals, as shown in our experiments.
 
 
@@ -724,11 +724,11 @@ See \ref{sec:comp_lc} for the experimental results comparing COPP to \cite{lei20
 
 
 
-\textbf{Baselines for comparison.}
+\paragraph{Baselines for comparison}
 Given our problem setup, there are no established baselines. Instead, we compare our proposed method COPP to the following competing methods, which were constructed to capture the uncertainty in the outcome distribution and take into account the policy shift. 
 % \footnote{Link to our code has been included in a separate file}
 
-\textbf{Weighted Importance Sampling (WIS) CDF estimator.} Given observational dataset $\mathcal{D}_{obs} = \{x_i, a_i, y_i\}_{i=1}^{n_{obs}}$, \cite{risk-assessment} proposed a non-parametric WIS-based estimator for the empirical CDF of $Y$ under $\pi^*$, 
+\paragraph{Weighted Importance Sampling (WIS) CDF estimator} Given observational dataset $\mathcal{D}_{obs} = \{x_i, a_i, y_i\}_{i=1}^{n_{obs}}$, \cite{risk-assessment} proposed a non-parametric WIS-based estimator for the empirical CDF of $Y$ under $\pi^*$, 
 $
 \hat{F}_{WIS}(t) \coloneqq \frac{\sum_{i=1}^{n_{obs}} \hat{\rho}(a_i, x_i) \mathbbm{1}(y_i \leq t)}{\sum_{i=1}^{n_{obs}} \hat{\rho}(a_i, x_i)}
 $
@@ -743,7 +743,7 @@ where $\hat{\rho}(a, x) \coloneqq \frac{\pi^*(a \mid x)}{\hat{\pi}^b(a \mid x)}$
     \caption{Toy experiment results with required coverage $90\%$. While WIS intervals provide required coverage, the mean interval length is huge compared to COPP (see table \ref{tab:length_toy}).}
     \begin{minipage}[b]{.48\linewidth}
       \centering
-      \subcaption{Mean Coverage as a function of policy shift with 2 standard errors over 10 runs.}\label{tab:coverage_toy}
+      \subcaption{Mean coverage as a function of policy shift with 2 standard errors over 10 runs.}\label{tab:coverage_toy}
       \resizebox{1\columnwidth}{!}{%
         \begin{tabular}{lccc}
 \toprule
@@ -764,7 +764,7 @@ CP (union) &                      0.96 $\pm$ 0.01 &         0.96 $\pm$ 0.01 &   
     \hspace{0.5cm}
     \begin{minipage}[b]{.48\linewidth}
       \centering
-      \subcaption{Mean Interval Length as a function of policy shift with 2 standard errors over 10 runs.}\label{tab:length_toy}
+      \subcaption{Mean interval length as a function of policy shift with 2 standard errors over 10 runs.}\label{tab:length_toy}
       \resizebox{1\columnwidth}{!}{%
         \begin{tabular}{lccc}
 \toprule
@@ -830,17 +830,17 @@ CP (union) &                     10.66 $\pm$ 0.18 &         11.04 $\pm$ 0.2 &   
 
 
 
-\textbf{Sampling Based Approach (SBA).} As mentioned in Sec. \ref{sec:weights}, we can directly use the estimated $\hat{P}(y\mid x, a)$ to construct the predictive intervals as follows. For a given $x^{test}$, we generate $A_i \overset{\textup{i.i.d.}}{\sim} \pi^*(\cdot \mid x^{test})$, and $Y_i \sim \hat{P}(\cdot \mid x^{test}, A_i)$ for $i \leq \ell$. We then define the predictive intervals for $x^{test}$ using the $\alpha/2$ and $1-\alpha/2$ quantiles of $\{Y_i\}_{i \leq \ell}$. While SBA is not a standard baseline, it is a natural comparison to make to answer the question of ``why not construct the intervals using $\hat{P}(y|x, a)$ directly''?
+\paragraph{Sampling Based Approach (SBA)} As mentioned in Sec. \ref{sec:weights}, we can directly use the estimated $\hat{P}(y\mid x, a)$ to construct the predictive intervals as follows. For a given $x^{test}$, we generate $A_i \overset{\textup{i.i.d.}}{\sim} \pi^*(\cdot \mid x^{test})$, and $Y_i \sim \hat{P}(\cdot \mid x^{test}, A_i)$ for $i \leq \ell$. We then define the predictive intervals for $x^{test}$ using the $\alpha/2$ and $1-\alpha/2$ quantiles of $\{Y_i\}_{i \leq \ell}$. While SBA is not a standard baseline, it is a natural comparison to make to answer the question of ``why not construct the intervals using $\hat{P}(y|x, a)$ directly''?
 
 % In this section, we will demonstrate COPP for off-policy prediction on both, synthetic and real-world data. Due to space constraints, we have added extensive experiments on UCI datasets in \ref{sec:UCI}.
 
-\subsection{Toy Experiment}\label{sec:exp_toy} 
+\subsection{Toy experiment}\label{sec:exp_toy} 
  We start with synthetic experiments and an ablation study, in order to dissect and understand our proposed methodology in more detail. We assume that our policies are stationary and there is overlap between the behaviour and target policy, both of which are standard assumptions \citep{risk-assessment, drobust, ope-rl}.
 \subsubsection{Synthetic data experiments setup}
 
 In order to understand how COPP works, we construct a simple experimental setup where we can control the amount of ``\textit{policy shift}" and know the ground truth. In this experiment, $X \in \mathbb{R}$, $A \in \{1, 2, 3, 4\}$ and $Y \in \mathbb{R}$, where $X$ and $Y\mid x, a$ are normal random variables. Further details and additional experiments on continuous action spaces are given in Appendix \ref{sec:toy_experiments_descrip}.   
 
-\textbf{Behaviour and Target Policies.}
+\paragraph{Behaviour and target policies}
 We define a family of policies $\pi_\epsilon(a \mid x)$, where we use the parameter $\epsilon \in (0,1/3)$ to control the policy shift between target and behaviour policies. Exact form of $\pi_\epsilon(a \mid x)$ is given in \ref{sec:toy_experiments_descrip}. For the behaviour policy $\pi^b$, we use $\epsilon^b = 0.3$ (i.e. $\pi^b(a \mid x) \equiv  \pi_{0.3}(a \mid x)$), and for target policies $\pi^*$, we use $\epsilon^* \in \{0.1, 0.2, 0.3\}$. Using the true behaviour policy, $\pi^b$, we generate observational data $\mathcal{D}_{obs} = \{x_i, a_i, y_i\}_{i=1}^{n_{obs}}$ which is then split into training ($\mathcal{D}_{tr}$) and calibration ($\mathcal{D}_{cal}$) datasets, of sizes $m$ and $n$ respectively.
 
 % \begin{figure*}[t]
@@ -866,19 +866,19 @@ We define a family of policies $\pi_\epsilon(a \mid x)$, where we use the parame
 %     \label{fig:Toy_GT}
 % \end{figure*}
 
-\textbf{Estimation of ratios, $\hat{w}(x, y)$.}
+\paragraph{Estimation of ratios, $\hat{w}(x, y)$\,}
 Using the training dataset $\mathcal{D}_{tr}$, we estimate $P(y | x, a)$ as $\hat{P}(y | x, a) = \mathcal{N}(\mu(x, a), \sigma(x, a))$, where $\mu(x, a), \sigma(x, a)$ are both neural networks (NNs). Similarly, we use NNs to estimate the behaviour policy $\hat{\pi}^b$ from $\mathcal{D}_{tr}$. Next, to estimate $\hat{w}(x, y)$, we use \eqref{weight-est} with $h = 500$.
 
-\textbf{Score.}
+\paragraph{Score}
 For the score function, we use the same formulation as in \cite{romano2019conformalized}, i.e. $s(x, y) = \max\{ \hat{q}_{\alpha_{lo}}(x) - y, y - \hat{q}_{\alpha_{hi}}(x) \}$, where $\hat{q}_\beta(x)$ denotes the $\beta$ quantile estimate of $P^{\pi^b}_{Y\mid X=x}$ trained using pinball loss.
 
 Lastly, our weights $w(x, y)$ depend on $x$ \textbf{and} $y$ and hence we use a grid of $100$ equally spaced out $y$'s in our experiments to determine the predictive interval which satisfies $\hat{C}_n(x) \coloneqq \{y: s(x,y) \leq \text{Quantile}_{1-\alpha}(\hat{F}_{n}^{x, y})\}$. This is parallelizable and hence does not add much computational overhead.
 
-\textbf{Results.} Table \ref{tab:coverage_toy} shows the coverages of different methods as the policy shift $\Delta_{\epsilon}=\epsilon^b - \epsilon^*$ increases. The behaviour policy $\pi^b = \pi_{0.3}$ is fixed and we use $n=5000$ calibration datapoints, across 10 runs. Table \ref{tab:coverage_toy} shows, how COPP stays very close to the required coverage of $90\%$ across all target policies compared to WIS and SBA. WIS intervals are overly conservative i.e. above the required coverage, while the SBA intervals suffer from under-coverage i.e. below the required coverage. These results supports our hypothesis from Sec. \ref{sec:weights}, which stated that COPP is less sensitive to estimation errors of $\hat{P}(y|x, a)$ compared to directly using $\hat{P}(y|x, a)$ for the intervals, i.e. SBA. 
+\paragraph{Results} Table \ref{tab:coverage_toy} shows the coverages of different methods as the policy shift $\Delta_{\epsilon}=\epsilon^b - \epsilon^*$ increases. The behaviour policy $\pi^b = \pi_{0.3}$ is fixed and we use $n=5000$ calibration datapoints, across 10 runs. Table \ref{tab:coverage_toy} shows, how COPP stays very close to the required coverage of $90\%$ across all target policies compared to WIS and SBA. WIS intervals are overly conservative i.e. above the required coverage, while the SBA intervals suffer from under-coverage i.e. below the required coverage. These results supports our hypothesis from Sec. \ref{sec:weights}, which stated that COPP is less sensitive to estimation errors of $\hat{P}(y|x, a)$ compared to directly using $\hat{P}(y|x, a)$ for the intervals, i.e. SBA. 
 
 Next, Table \ref{tab:length_toy} shows the mean interval lengths and even though WIS has reasonable coverage for $\Delta_{\epsilon}=0.0$ and $0.1$, the average interval length is huge compared to COPP. Fig. \ref{fig:copp}b shows the predictive intervals for one such experiment with $\pi^* = \pi_{0.1}$ and $\pi^b = \pi_{0.3}$. We can see that SBA intervals are overly optimistic, while WIS intervals are too wide and are not adaptive w.r.t. $X$. COPP produces intervals which are much closer to the oracle intervals. 
 
-\subsubsection{Ablation Study.} 
+\subsubsection{Ablation study} 
 
 To isolate the effect of weight estimation error and policy shift, we conduct an ablation study, comparing COPP with estimated weights to COPP with Ground Truth (GT) weights and standard CP (assuming no policy shift). Table \ref{tab:coverage_toy} shows that at $\Delta_\epsilon = 0$, i.e. no policy shift, standard CP achieves the required coverage as expected. However the coverage of standard CP intervals decreases as the policy shift $\Delta_\epsilon$ increases. COPP, on the other hand, attains the required coverage of $90\%$, by adapting the predictive intervals with increasing policy shift. Table \ref{tab:length_toy} shows that the average interval length of COPP increases with increasing policy shift $\Delta_\epsilon$. Furthermore, Table \ref{tab:coverage_toy} illustrates that while COPP achieves the required coverage for different target policies, on average it is slightly more conservative than using COPP with GT weights. This can be explained by the estimation error in $\hat{w}(x,y)$. Additionally, to investigate the effect of integrating out the actions in \eqref{weight-est}, we also perform CP for each action $a$ separately (as in \cite{lei2020conformal}) and then take the union of the intervals across these actions. In the union method, the probability of an action being chosen is not taken into account, (i.e., intervals are independent of $\pi^*$) and hence the coverage is overly conservative as expected.
 
@@ -913,7 +913,7 @@ Lastly, we investigate how increasing the number of calibration data $n$ affects
 
 \begin{table}[t]
 \centering
-\caption{Mean Coverage as a function of policy shift $\Delta_\epsilon$ and 2 standard errors over 10 runs. COPP attains the required coverage of $90\%$, whereas the competing methods, WIS and SBA, are over-conservative i.e. coverage above $90\%$. In addition, when we do not account for the policy shift, standard CP becomes progressively worse with increasing policy shift.}\label{tab:MSR}
+\caption{Mean coverage as a function of policy shift $\Delta_\epsilon$ and 2 standard errors over 10 runs. COPP attains the required coverage of $90\%$, whereas the competing methods, WIS and SBA, are over-conservative i.e. coverage above $90\%$. In addition, when we do not account for the policy shift, standard CP becomes progressively worse with increasing policy shift.}\label{tab:MSR}
 \resizebox{0.7\columnwidth}{!}{%
 \begin{tabular}{lccccc}
 \toprule
@@ -937,7 +937,7 @@ CP (no policy shift) &                  \textbf{0.91 $\pm$ 0.02}&               
 We now apply COPP onto a real dataset i.e. the Microsoft Ranking dataset 30k \citep{msr, swaminathan2016off, bietti2018contextual}. Due to space constraints, we have added additional extensive experiments on UCI datasets in Appendix \ref{sec:UCI}.
 
 
-\textbf{Dataset.}
+\paragraph{Dataset}
 % The dataset contains relevance scores for websites recommended to different users, and comprises of $30,000$ user-website pairs. For a user $i$ and website $j$, the data contains a $136$-dimensional feature vector $u_i^j$, which consists of user $i$'s attributes corresponding to website $j$, such as length of stay or number of clicks on the website. Furthermore, for each user-website pair, the dataset also contains a relevance score, i.e. how relevant the website was to the user.
 The dataset contains relevance scores for websites recommended to different users, and comprises of $30,000$ user-website pairs. For each user-website pair, the data contains a $136$-dimensional feature vector, which consists of user's attributes corresponding to the website, such as length of stay or number of clicks on the website. Furthermore, for each user-website pair, the dataset also contains a relevance score, i.e. how relevant the website was to the user.
 
@@ -959,12 +959,12 @@ First, given a user, we sample (with replacement) $5$ websites from the data cor
 % \end{align}
 % The problem being considered in this dataset is somewhat analogous to the one of recommending treatment to patients in the medical setting. Specifically, in both cases we would like to recommend websites/treatments which are relevant to the users/patients and avoid ones which are not. 
 
-\textbf{Behaviour and Target Policies.} 
+\paragraph{Behaviour and target policies} 
 We first train a NN classifier model, $\hat{f}_\theta$, mapping each 136-dimensional user-website feature vector to the softmax scores for each relevance score class. We use this trained model $\hat{f}_\theta$ to define a family of policies which pick the most relevant website as predicted by $\hat{f}_\theta$ with probability $\epsilon$ and the rest uniformly with probability $(1-\epsilon)/4$ (see Appendix \ref{sec:MSR_experiments_decrip} for more details). Like the previous experiment, we use $\epsilon$ to control the shift between behaviour and target policies. For $\pi^b$, we use $\epsilon^b = 0.5$ and for $\pi^*$, $\epsilon^* \in \{0.1, 0.2, 0.3, 0.4, 0.5\}$. 
 % Using this behaviour policy $\pi^b$, we generate an observational dataset $\mathcal{D}_{obs} = \{x_i, a_i, y_i\}_{i=1}^{n_{obs}}$ which is then split into training $\mathcal{D}_{tr}$ and calibration datasets $\mathcal{D}_{cal}$, of sizes $m$ and $n$ respectively.
 % We first train a NN classifier model mapping each 136-dimensional feature vector to the softmax scores for each relevance score class, $\hat{f}_\theta:\mathcal{U} \rightarrow [0,1]^5$. We use this trained model $\hat{f}_\theta$ to define a family of policies which pick the most relevant website as predicted by $\hat{f}_\theta$ with probability $\epsilon$ and the rest uniformly with probability $(1-\epsilon)/4$ (see \ref{sec:MSR_experiments_decrip} for more details). Like the previous experiment, we use $\epsilon$ to control the shift between behaviour and target policies. For $\pi^b$, we use $\epsilon^b = 0.5$ and for $\pi^*$, $\epsilon^* \in \{0.1, 0.2, 0.3, 0.4, 0.5\}$. Using this behaviour policy $\pi^b$, we generate an observational dataset $\mathcal{D}_{obs} = \{x_i, a_i, y_i\}_{i=1}^{n_{obs}}$ which is then split into training $\mathcal{D}_{tr}$ and calibration datasets $\mathcal{D}_{cal}$, of sizes $m$ and $n$ respectively.
 
-\textbf{Estimation of ratios $\hat{w}(X, Y)$.}
+\paragraph{Estimation of ratios $\hat{w}(X, Y)$}
 To estimate the $\hat{P}(y \mid x, a)$ we use the trained model $\hat{f}_\theta$ as detailed in Appendix \ref{sec:MSR_experiments_decrip}. To estimate the behaviour policy $\hat{\pi}^b$, we train a neural network classifier model $\mathcal{X} \rightarrow \mathcal{A}$, and we use \eqref{weight-est} to estimate the weights $\hat{w}(x, y)$.
 % To estimate the $\hat{P}(y \mid x, a)$ we use the trained model $\hat{f}_\theta$ as follows:
 % \[
@@ -972,7 +972,7 @@ To estimate the $\hat{P}(y \mid x, a)$ we use the trained model $\hat{f}_\theta$
 % \]
 % where $\hat{f}_\theta(u^a)_y$ corresponds to the softmax prediction of $u^a$ for label $y$ under the model $\hat{f}_\theta$. To estimate the behaviour policy $\hat{\pi}^b$, we train a classifier model $\mathcal{X} \rightarrow \mathcal{A}$ using a neural network. We use \eqref{weight-est} to estimate the weights $\hat{w}(x, y)$.
 
-\textbf{Score.} The space of outcomes $\mathcal{Y}$ in this experiment is discrete. We define $\hat{P}^{\pi^b}(y \mid x) = \sum_{i = 1}^5 \hat{\pi}^b(A = i|x) \hat{P}(y|x, A = i)$. Using similar formulation as in \cite{conf-bates}, we define the score:
+\paragraph{Score} The space of outcomes $\mathcal{Y}$ in this experiment is discrete. We define $\hat{P}^{\pi^b}(y \mid x) = \sum_{i = 1}^5 \hat{\pi}^b(A = i|x) \hat{P}(y|x, A = i)$. Using similar formulation as in \cite{conf-bates}, we define the score:
 $$
 s(x, y) = \sum_{y' = 0}^4 \hat{P}^{\pi^b}(y' \mid x) \mathbbm{1}(\hat{P}^{\pi^b}(y' \mid x) \geq \hat{P}^{\pi^b}(y \mid x)).
 $$
@@ -995,7 +995,7 @@ Since $\mathcal{Y}$ is discrete, we no longer need to construct a grid of $y$ va
 %     \label{fig:msr}
 % \end{figure*}
 
-\textbf{Results.}
+\paragraph{Results}
 % Here below, we can see the coverage plots when using our proposed methods standard classification and \cite{risk-assessment}. We can see from the below plots that our proposed method is able to attain the required coverage consistently, whereas \cite{risk-assessment} is over-conservative. Lastly, if we do not use the conformal prediction framework, we can see from Fig.[ref] that we can no longer guarantee coverage and suffer from under-coverage.
 Table \ref{tab:MSR} shows the coverages of different methodologies across varying target policies $\pi_{\epsilon^*}$. The behaviour policy $\pi^b = \pi_{0.5}$ is fixed and we use $n=5000$ calibration datapoints, across 10 runs. Table \ref{tab:MSR} also shows that the coverage of WIS and SBA sets is dependent upon the policy shift, with both being overly conservative across the different target policies as compared to COPP. Recall that the WIS sets do not depend on $x^{test}$ and as a result we get the same set for each test data point. This becomes even more problematic when $Y$ is discrete -- if, for each label $y$, $\tarprob(Y = y)>10\%$, then WIS sets (with the required coverage of $90\%$) are likely to contain every label $y \in \mathcal{Y}$.
 % This becomes even more problematic when $Y$ is discrete as there are finitely many possible sets that can be constructed, and consequently the achieved coverage cannot be arbitrarily close to the required coverage. In particular, when $\epsilon^b=0.5$, small $\Delta_{\epsilon}$ values indicate that the target policy is well spread out with each action having at least $10\%$ probability. Hence if we would like to achieve marginal coverage of at least $90\%$, we need to include all the labels, give that the intervals are not dependent on $x$ for WIS. 
@@ -1008,14 +1008,14 @@ Finally, we also plotted how the coverage changes as the number of calibration d
 
 % Note that we only we only included the high number of calibration data to check convergence and do not expect to have this amount of calibration data in practice.
 
-\textbf{Class-balanced conformal prediction.}
+\paragraph{Class-balanced conformal prediction}
 Using the methodology described in Sec. \ref{sec:group_balanced_cov}, we construct predictive sets, $\hat{C}^{\mathcal{Y}}_n(x)$, which offer label conditioned coverage guarantees (see \ref{sec:grp-bal}), i.e. for all $y\in \mathcal{Y}$, 
 $$
 \tarprob(Y \in \hat{C}^{\mathcal{Y}}_n(X) \mid Y = y) \geq 1- \alpha.
 $$
 We empirically demonstrate that $\hat{C}^{\mathcal{Y}}_n$ provides label conditional coverage, while $\hat{C}_n$ obtained using alg. \ref{cp_covariate_shift} may not. Due to space constraints, details on construction of $\hat{C}^{\mathcal{Y}}_n$ as well as experimental results have been included in Appendix \ref{sec:results_class_bal_coverage}.
 
-\section{Conclusion and Limitations}\label{sec:lims}
+\section{Conclusion and limitations}\label{sec:lims}
 
 % In this paper, we construct predictive intervals for contextual bandits to assess a target policy $\pi^*$ given observational data generated from a behavioural policy $\pi^b$. 
 In this paper, we propose COPP, an algorithm for constructing predictive intervals on off-policy outcomes, which are adaptive w.r.t. covariates $X$. We theoretically prove that COPP can guarantee finite-sample coverage by adapting the framework of conformal prediction to our setup.

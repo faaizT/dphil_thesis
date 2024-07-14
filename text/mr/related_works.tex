@@ -1,5 +1,5 @@
-\section{Related Work}
-Off-Policy evaluation is a central problem both in contextual bandits \citep{dudik2014doubly, wang2017optimal, liu2018breaking, farajtabar2018more, su2019continuous, su2020doubly, kallus2021optimal, metelli2021subgaussian, saito2020open} and in RL \citep{thomas2016data, xie2019advances, kallus2020off, liu2020understanding}. 
+\section{Related work}
+Off-policy evaluation is a central problem both in contextual bandits \citep{dudik2014doubly, wang2017optimal, liu2018breaking, farajtabar2018more, su2019continuous, su2020doubly, kallus2021optimal, metelli2021subgaussian, saito2020open} and in RL \citep{thomas2016data, xie2019advances, kallus2020off, liu2020understanding}. 
 Existing OPE methodologies can be broadly categorised into Direct Method (DM), Inverse Probability Weighting (IPW), and Doubly Robust (DR). 
 While DM typically has a low variance, it suffers from high bias when the reward model is misspecified \citep{voloshin2021empirical}. 
 On the other hand, IPW \citep{horvitz1952generalization} and DR \citep{dudik2014doubly, wang2017optimal, su2020doubly} use policy ratios as importance weights when estimating policy value and suffer from high variance as overlap between behaviour and target policies increases or as the action/context space gets larger \citep{sachdeva2020off, saito2022off}. To circumvent this problem, techniques like weight clipping or normalisation \citep{swaminathan2015counterfactual, swaminathan2015the, chaudhuri2019london} are often employed, however, these can often increase bias.
