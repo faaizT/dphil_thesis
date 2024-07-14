@@ -3,7 +3,7 @@ In this section, we theoretically investigate the variance of MR against the com
 Below, we provide the explicit definitions of these estimators for completeness.
 
 \paragraph{Switch-DR estimator}
-The original DR estimator can still have a high variance when the importance weights are large due to a large policy shift. Switch-DR \cite{wang2017optimal} aims to circumvent this problem by switching to DM when the importance weights are large:
+The original DR estimator can still have a high variance when the importance weights are large due to a large policy shift. Switch-DR \citep{wang2017optimal} aims to circumvent this problem by switching to DM when the importance weights are large:
 \[
 \thetaswitch \coloneqq \frac{1}{n} \sum_{i=1}^n \rho(a_i, x_i)\,(y_i - \hat{\mu}(a_i, x_i))\ind(\rho(a_i, x_i) \leq \tau) + \hat{\eta}(\tar),
 \]

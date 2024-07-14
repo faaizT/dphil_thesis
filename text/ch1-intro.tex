@@ -164,7 +164,7 @@ Besides using control variates (as in DR estimator), several techniques have bee
 
 
 \paragraph{Weight clipping and normalization}
-\cite{swaminathan2015counterfactual, swaminathan2015the, chaudhuri2019london} attempt to bound the importance weights within a certain range to prevent them from becoming excessively large. However, these approaches introduce a bias-variance trade-off, as clipping the weights can introduce bias into the estimates. Similarly, Switch-DR \cite{wang2017optimal} aims to circumvent the high variance in conventional DR estimator by switching to the Direct Method when the importance weights are large:
+\cite{swaminathan2015counterfactual, swaminathan2015the, chaudhuri2019london} attempt to bound the importance weights within a certain range to prevent them from becoming excessively large. However, these approaches introduce a bias-variance trade-off, as clipping the weights can introduce bias into the estimates. Similarly, Switch-DR \citep{wang2017optimal} aims to circumvent the high variance in conventional DR estimator by switching to the Direct Method when the importance weights are large:
 \[
 \thetaswitch \coloneqq \frac{1}{n} \sum_{i=1}^n \rho(a_i, x_i)\,(y_i - \hat{\mu}(a_i, x_i))\ind(\rho(a_i, x_i) \leq \tau) + \hat{\eta}(\tar),
 \]
