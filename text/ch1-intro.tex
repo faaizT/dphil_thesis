@@ -9,15 +9,19 @@
 
 \minitoc
 
-In the real world, making informed decisions is crucial. We constantly strive to take actions that lead to desirable outcomes, whether it's a doctor prescribing the most effective treatment for a patient or a company launching a marketing campaign that resonates with its target audience \citep{xu2020contextual,li2010contextual,bastani2019online}. However, achieving this goal becomes increasingly challenging in the face of uncertainty. Real-world data is often noisy and incomplete, and the systems we interact with are complex and constantly evolving. As machine learning models become more integrated into critical applications, the need for robust decision-making under these challenging conditions becomes paramount.
+The ability to make well-informed decisions is crucial across a variety of domains. 
+Whether it's a doctor prescribing the most effective treatment for a patient or a company launching a marketing campaign that resonates with its target audience \citep{xu2020contextual,li2010contextual,bastani2019online}, we constantly strive to take actions that lead to desirable outcomes. 
+% In the real world, making informed decisions is crucial. We constantly strive to take actions that lead to desirable outcomes, whether it's a doctor prescribing the most effective treatment for a patient or a company launching a marketing campaign that resonates with its target audience \citep{xu2020contextual,li2010contextual,bastani2019online}. 
+However, achieving this goal becomes increasingly challenging in the face of uncertainty. Real-world data is often noisy and incomplete, and the systems we interact with are complex and constantly evolving. As machine learning models become more integrated into critical applications, the need for robust decision-making under these challenging conditions becomes paramount.
 
 
-This thesis explores the key challenges of robust decision-making in machine learning, specifically focusing on the concept of \emph{off-policy evaluation} \citep{uncertainty5, adaptive-ope, uncertainty2, uncertainty3, uncertainty4, doubly-robust}. Consider a doctor who wants to assess a new treatment for a disease. Ideally, they would conduct a randomized controlled trial \citep{tsiatis2019dynamic} where patients are randomly assigned the new treatment or a standard one. However, such trials can be expensive, time-consuming or worse, ethically problematic. Off-policy evaluation (OPE) offers a compelling alternative. It allows us to evaluate the performance of a new decision-making policy (the new treatment) using data collected under a different policy (the standard treatment). This eliminates the need for costly experimentation and allows for quicker implementation of potentially more effective strategies.
+This thesis explores the key challenges of robust decision-making in machine learning, specifically focusing on \emph{off-policy evaluation} \citep{uncertainty5, adaptive-ope, uncertainty2, uncertainty3, uncertainty4, doubly-robust}. Consider the example of a doctor who wants to assess a new treatment for a disease. Ideally, they would conduct a randomized controlled trial \citep{tsiatis2019dynamic} where patients are randomly assigned the new treatment or a standard one. However, such trials can be expensive, time-consuming or worse, ethically problematic. Off-policy evaluation (OPE) offers a compelling alternative by allowing us to evaluate the performance of a new decision-making policy (the new treatment) using data collected under a different policy (the standard treatment). This eliminates the need for costly experimentation and allows for quicker implementation of potentially more effective strategies.
 
 However, off-policy evaluation presents its own set of challenges. These challenges stem from two main sources of uncertainty:
 
 \begin{itemize}
-    \item \textbf{Statistical uncertainty:} This arises from the inherent randomness in the data we have access to and the limitations of the models we use to represent the real world. For instance, the doctor might have a limited number of patients in their historical dataset, and their model might not perfectly capture all the factors that influence a patient's response to treatment.
+    \item \textbf{Statistical uncertainty:} This arises from the inherent randomness in the data we have access to and the limitations of the models we use to represent the real world. 
+    For instance, the doctor might have a limited number of patients in their historical dataset, and their model might not perfectly capture a patient's response to treatment due to model misspecification.
     In these circumstances, the conventional OPE methods may suffer from high variance and/or bias, thereby potentially resulting in misleading conclusions \citep{saito2021evaluating,su2020doubly,saito2022off}. 
     \item \textbf{Causal unidentifiability:} In many cases, it may be impossible to definitively establish the causal effects of actions even if we had access to infinite data. This arises due to factors like confounding variables, which can influence both the treatment and the outcome. Imagine the existence of some unmeasured factors, such as a patient's pre-existing conditions, that can influence both their initial treatment and their response to the treatment. This makes it challenging to isolate the true causal effect of the new treatment from the influence of these confounding variables \citep{tsiatis2019dynamic,kallus2018confounding,namkoong2020offpolicy}.
 \end{itemize}
@@ -28,7 +32,9 @@ Before we go into the specifics of these challenges, we introduce the framework 
 % will delve deeper into the specifics of these challenges, explore the limitations of existing approaches, and showcase the contributions made by the included research papers.
 
 \section{Contextual bandits}
-Contextual bandits \citep{Lattimore_Szepesvári_2020} provide a powerful framework for tackling decision-making problems where the effectiveness of an action depends on the specific context in which it is chosen. Imagine a doctor deciding on the best treatment for a patient. The optimal treatment might depend on various factors like the patient's age, medical history, and current symptoms. Contextual bandits allow us to model these complex decision-making scenarios by incorporating the notion of context.
+Contextual bandits \citep{Lattimore_Szepesvári_2020} provide a powerful framework for tackling decision-making problems where the effectiveness of an action depends on the specific context in which it is chosen. 
+For instance, in medical decision-making, the optimal treatment for a patient might depend on various factors such as their age, medical history, and current symptoms. 
+Contextual bandits allow us to model these complex decision-making scenarios by incorporating the notion of context.
 
 In this setting, we use covariates $X \in \mathcal{X}$ to denote features which encapsulate the contextual information such as the patient's age and medical history, we use $A \in \mathcal{A}$ to represent the action chosen by some real-world agent (such as a doctor), and $Y \in \mathcal{Y}$ to denote the outcome/reward observed as a result of taking action $A$, for example, $Y \in \{0, 1\}$ might represent whether a patient survives ($Y=1$) or not ($Y=0$). The goal of a learner in contextual bandits is to choose actions $A$ for a context $X$ which maximises the reward $Y$. 
 % \todo{include causal formulation and connect it with this}
@@ -36,10 +42,10 @@ In this setting, we use covariates $X \in \mathcal{X}$ to denote features which 
 % \begin{importantresultwithtitle}[title=Causal formulation]\noindent
 \paragraph{Causal formulation}
  To make the causal dependence of the action on the outcome explicit, we can reformulate the contextual bandits setting using the \emph{potential outcomes framework} proposed by \cite{robins1986new}. 
- Here, for a given action $a \in \mathcal{A}$ we denote the random variable $Y(a)$ (also known as the potential outcome), as the outcome that \emph{would} occur if the action $a$ is chosen. As random variables, $Y(a)$ may also depend on the initial covariates $X$ and additional randomness which is not explicitly modelled. Moreover, this notation can be reconciled with the conventional contextual bandits setting above by noting that, in the real world where an agent chooses action $A \in \mathcal{A}$ for context $X$, the outcome $Y$ observed is explicitly expressed as $Y(A)$, i.e. $Y=Y(A)$ in the real world. This corresponds to the standard consistency assumption in causal inference \citep{hernan2020causal} and intuitively means that the potential outcome $Y(a)$ is observed in the data when the agent actually chose $A=a$. 
+ Here, for a given action $a \in \mathcal{A}$ we denote the random variable $Y(a)$ (also known as the potential outcome), as the outcome that \emph{would} occur if the action $a$ is chosen. As random variables, $Y(a)$ may also depend on the initial covariates $X$ and additional randomness which is not explicitly modelled. Moreover, this notation can be reconciled with the conventional contextual bandits setting above by noting that, in the real world where an agent chooses action $A \in \mathcal{A}$ for context $X$, the outcome $Y$ observed is explicitly expressed as $Y(A)$, i.e. $Y\coloneqq Y(A)$ in the observational data. This corresponds to the standard consistency assumption in causal inference \citep{hernan2020causal} and intuitively means that the potential outcome $Y(a)$ is observed in the data when the agent actually chose $A=a$. 
 % \end{importantresultwithtitle}
 
-Contextual bandits encapsulate the single-decision regimes where, for each observed context, we make a single action and observe the resulting outcome. This is analogous to a doctor choosing a single treatment for a patient based on their current state. However, many real-world decision-making scenarios involve multiple interventions over time, where each action not only affects the immediate outcome but also influences the context for future decisions. To capture this complexity, we introduce the concept of dynamic treatment regimes (DTRs) \citep{tsiatis2019dynamic} in the following section. DTRs extend the framework of contextual bandits to handle sequential decision-making problems, allowing us to model more complex scenarios where interventions unfold over time and the context evolves dynamically.
+Contextual bandits encapsulate the single-decision regimes where, for each observed context, we take a single action and observe the resulting outcome. This is analogous to a doctor choosing a single treatment for a patient based on their current state. However, many real-world decision-making scenarios involve multiple interventions over time, where each action not only affects the immediate outcome but also influences the context for future decisions. To capture this complexity, we introduce the concept of dynamic treatment regimes (DTRs) \citep{tsiatis2019dynamic} in the following section. DTRs extend the framework of contextual bandits to handle sequential decision-making problems, allowing us to model more complex scenarios where interventions unfold over time and the context evolves dynamically.
 
 \section{Dynamic treatment regimes}
 We consider a setting with a fixed number of decisions per episode (i.e., a fixed time horizon) $T \in \{1, 2, \ldots\}$. For each $t\in \{0, \ldots, T\}$, we assume that the process gives rise to an observation at time $t$, denoted by $X_t$ which takes values in some space $\mathcal{X}_t \coloneqq \R^{\Xspacedim_\tx}$. 
@@ -63,7 +69,7 @@ These potential outcomes $X_{1:T}(a_{1:T})$ are also referred to as \emph{interv
 As random variables, each $X_{t}(a_{1:t})$ may depend on additional randomness that is not explicitly modelled, and so, in particular, may be influenced by all the previous potential outcomes $X_{0:t-1}(a_{1:t-1})$, and possibly other random quantities.
 This models a process whose initial state is determined by external factors, such as when a patient from some population first presents at a hospital, and where the process then evolves according both to specific actions chosen from $\Aspace_{1:T}$ as well as additional external factors.
 
-Just like in the contextual bandits setting, this causal notation can be reconciled with the conventional (non-causal) notation above by noting that, in the real world where an agent chooses action $A_{1:t} \in \mathcal{A}_{1:t}$, the observation at time $t$, $X_{t}$, is explicitly expressed as $X_{t}(A_{1:t})$, i.e. $X_{t}=X_{t}(A_{1:t})$ in the real world. Like before, this is the standard consistency assumption in causal inference \citep{hernan2020causal} and intuitively means that the potential outcome $X_{t}(a_{1:t})$ is observed in the data when the agent chose $A_{1:t}=a_{1:t}$. 
+Just like in the contextual bandits setting, this causal notation can be reconciled with the conventional (non-causal) notation above by noting that, in the real world where an agent chooses action $A_{1:t} \in \mathcal{A}_{1:t}$, the observation at time $t$, $X_{t}$, is explicitly expressed as $X_{t}(A_{1:t})$, i.e. $X_{t}\coloneqq X_{t}(A_{1:t})$ in the observational data. Like before, this is the standard consistency assumption in causal inference \citep{hernan2020causal} and intuitively means that the potential outcome $X_{t}(a_{1:t})$ is observed in the data when the agent chose $A_{1:t}=a_{1:t}$. 
 % \end{importantresultwithtitle}
 
 
@@ -103,7 +109,8 @@ The main objective of off-policy evaluation (OPE) is to estimate the expectation
 \end{importantresultwithtitle}
 
 \subsubsection{Existing off-policy evaluation methodologies}
-Next, we will present some of the most commonly used OPE estimators before outlining the limitations of these methodologies. This motivates our proposal of an alternative OPE estimator. 
+Next, we will present some of the most commonly used OPE estimators before outlining the limitations of these methodologies. 
+This motivates our proposal presented in Chapter \ref*{ch:3-mr} of this thesis. 
 
 The value of the target policy can be expressed as the expectation of outcome $Y$ under the target data distribution $\ptar(x, a, y)$.
 % The policy value of target policy $\tar$ can be written as:
@@ -157,7 +164,7 @@ Here, $\hat{\eta}(\tar)$ is referred to as the Direct Method (DM) as it uses $\h
 The conventional off-policy value estimators (including IPW and DR estimators) use policy ratios $\rho(a, x) \coloneqq \tar(a\mid x)/\beh(a\mid x)$ as importance weights. 
 In cases where the two policies are significantly different, the policy ratios $\rho(a, x)$ attain extreme values leading to a high variance in the OPE estimators. 
 Even though the DR estimator uses control variates for variance reduction, it still relies on policy ratios as importance weights and as a result, also suffers from high variance when the policy shift is large. 
-This problem is further exacerbated as the size of the action and context spaces grows \citep{sachdeva2020off, saito2022off}.
+This problem is further exacerbated as the sizes of the action and context spaces grow \citep{sachdeva2020off, saito2022off}.
 Chapter \ref{ch:3-mr} of this thesis specifically focuses on this limitation of OPE. 
 
 Besides using control variates (as in DR estimator), several techniques have been proposed to address the variance issues associated with importance weights. 
@@ -257,12 +264,12 @@ Since the precise identifiability of causal effects is not possible in the prese
 \paragraph{Sensitivity analysis}
 Slightly stronger assumptions yield inferences that may be more powerful but less credible. To this end, \cite{rosenbaum2002observational} proposes a classical model of confounding for a single binary decision setting which posits that the unobserved confounders have a limited influence on the agent's actions in the real world.  \cite{namkoong2020offpolicy} extend this model to the multi-action sequential decision-making setting, and subsequently use this to obtain bounds on the off-policy value.
 
-The Rosenbaum model is also closely related to (albeit different from) the marginal sensitivity model introduced by \cite{tan2006distributional} which also assumes bounds on the strength of unmeasured confounding on agent's actions. Subsequently, \cite{kallus2020minimax} uses the marginal sensitivity model to develop a policy learning algorithm which remains robust to unmeasured confounding. However, these confounding models impose assumptions which can be impossible to verify using observational data alone, and therefore the inferences obtained may be misleading in many cases. 
+The Rosenbaum model is also closely related to (albeit different from) the marginal sensitivity model introduced by \cite{tan2006distributional} which also assumes bounds on the strength of unmeasured confounding on agent's actions. Subsequently, \cite{kallus2020minimax} uses the marginal sensitivity model to develop a policy learning algorithm which remains robust to unmeasured confounding. However, these models impose assumptions on the strength of unmeasured confounding which can be impossible to verify using observational data alone, and therefore the inferences obtained may be misleading in many cases. 
 
 \paragraph{Proxy causal learning}
 This comprises methodologies for estimating the causal effect of actions on outcomes in the presence of unobserved confounding, using \emph{proxy variables} which contain relevant side information about the unmeasured confounders \citep{xu2021deep, tchetgen2020introduction, xu2024kernel}. This usually involves a two-stage regression. First, the relationship between action and proxies is modelled and subsequently, this model is used to learn the causal effect of actions on the outcomes. \cite{kuroki2014measurement} outline the necessary conditions on proxy variables to obtain the true causal effects. While proxy causal learning may be effective in cases where such proxy variables are available, in many real-world settings the available proxy variables may not satisfy the necessary conditions for identification of true causal effects.
 
-Chapter \ref{ch:5-causal} of this thesis considers the challenges posed by unmeasured confounding in dynamic treatment regimes. We propose a set of novel bounds on the causal effects in sequential decision-making settings, which remain valid in the presence of unmeasured confounding and rely on minimal assumptions making them highly applicable to a wide variety of real-world settings. 
+Chapter \ref{ch:5-causal} of this thesis considers the challenges posed by unmeasured confounding in dynamic treatment regimes. We propose a set of novel bounds on the causal effects in sequential decision-making settings, which remain valid in the presence of arbitrary unmeasured confounding and rely on minimal assumptions making them highly applicable to a wide variety of real-world settings. 
 
 
 % Under these confounding assumptions, we can obtain bounds on the off-policy value
@@ -315,13 +322,13 @@ Chapter \ref{ch:5-causal} of this thesis considers the challenges posed by unmea
 % - Falsification of interventional regimes using partial identification
 
 \section{Contributions and thesis outline}
-Having outlined some of the key challenges associated with Off-Policy evaluation, we dedicate the rest of this thesis to addressing each of these individually.
+Having outlined some of the key challenges associated with off-policy evaluation, we dedicate the rest of this thesis to addressing each of these individually.
 Specifically, this thesis is organised as follows:
 
 \paragraph*{Chapter \ref*{ch:3-mr}: Variance reduction \citep{taufiq2023marginal}}
 The first challenge we consider is that of high variance in existing OPE estimators based on importance sampling. 
 As we mentioned in Section \ref{subsec:high-variance}, this variance is exacerbated in cases where there is low overlap between behaviour and target policies, or where the action or context space is high-dimensional.
-To address this challenge, we propose a novel OPE estimator for contextual bandits, the Marginal Ratio (MR) estimator, which uses a marginalisation technique to focuse on the shift in the marginal distribution of outcomes $Y$
+To address this challenge, we propose a novel OPE estimator for contextual bandits, the Marginal Ratio (MR) estimator, which uses a marginalisation technique to focus on the shift in the marginal distribution of outcomes $Y$
 directly, instead of the policies themselves. 
 Unlike the conventional approaches like IPW and DR estimators, intuitively our proposed estimator treats actions $A$ and contexts $X$ as latent variables.
 As a result, the resulting estimator is significantly more robust to the overlap between policies and the sizes of action and/or context spaces.
@@ -334,19 +341,19 @@ This chapter also includes extensive theoretical and empirical analyses demonstr
 \paragraph*{Chapter \ref*{ch:4-copp}: Uncertainty quantification \citep{taufiq2022conformal}}
 As explained in Section \ref{subsec:uncertainty-quantification}, most OPE methods have focused on the expected outcome of a policy which does not capture the variability of the outcome $Y$.
 In addition, many of these methods provide only asymptotic guarantees of validity at best. 
-In this chapter, we address these limitations by considering a novel application of conformal prediction to contextual bandits. 
+In this chapter, we address these limitations by considering a novel application of conformal prediction \citep{vovk2005algorithmic} to contextual bandits. 
 Given data collected under a behavioral policy, we propose \emph{conformal off-policy prediction} (COPP), which can output reliable predictive intervals for the outcome under a new target policy. We provide theoretical finite-sample guarantees without making any additional assumptions beyond the standard contextual bandit setup, and empirically demonstrate the utility of COPP compared with existing methods on synthetic and real-world data.
 
 \paragraph*{Chapter \ref*{ch:5-causal}: Causal considerations \citep{cornish2023causalfalsificationdigitaltwins}}
-In this chapter we consider dynamic treatment regimes (DTRs), where available observational data may suffer from unmeasured confounding. 
+In this chapter we consider dynamic treatment regimes (DTRs), where the available observational data may suffer from unmeasured confounding. 
 As mentioned in Section \ref{subsec:unmeasured-confounding}, fundamental results from causal inference mean that in this setting the interventional behaviour of outcomes, $\Law[\X_{\tx}(\ax_{1:\tx})]$, is unidentifiable from the observational distribution.  
 To address this challenge, we provide a novel set of longitudinal causal bounds that remain valid under arbitrary unmeasured confounding.
 
 Chapter \ref*{ch:5-causal} focuses on the application of these 
 % We apply these 
-bounds for assessing the accuracy of \emph{Digital Twin Models}.
+bounds for assessing the accuracy of \emph{digital twin models}.
 These models are virtual systems designed to predict how a real-world process will evolve in response to interventions. 
-To be considered accurate, these models must correctly capture the true interventional behaviour of outcomes, $\X_{\tx}(\ax_{1:\tx})$.
+To be considered accurate, these models must correctly capture the true interventional behaviour of outcomes, $\X_{0:\tx}(\ax_{1:\tx})$.
 Unfortunately, the causal unidentifiability results mean observational data cannot be used to certify a twin in this sense if the data are confounded.
 To circumvent this, we instead use our proposed causal bounds to find situations in which the twin \emph{is not} correct, and present a general-purpose statistical procedure for doing so.
 Our approach yields reliable and actionable information about the twin under only the assumption of an i.i.d.\ dataset of observational trajectories, and remains sound even if the data are confounded.
@@ -392,8 +399,8 @@ Here, we list these papers along with a brief description in chronological order
 In \cite{taufiq2023manifold}, we consider the robustness of Shapley values, which are model-agnostic methods for explaining model predictions.
 Many commonly used methods of computing Shapley values, known as off-manifold methods, are sensitive to model behaviour outside the data distribution.
 This makes Shapley explanations highly sensitive to off-manifold perturbation of models, resulting in misleading explanations.
-To circumvent these problems, we propose \emph{ManifoldShap}, which respects the model’s domain of validity by restricting model evaluations to the data manifold.
-We show, theoretically and empirically, that ManifoldShap is robust to offmanifold perturbations of the model and leads to
+To circumvent this problem, we propose \emph{ManifoldShap}, which respects the model’s domain of validity by restricting model evaluations to the data manifold.
+We show, theoretically and empirically, that ManifoldShap is robust to off-manifold perturbations of the model and leads to
 more accurate and intuitive explanations than existing state-of-the-art Shapley methods.
 
 Beyond this, \cite{taufiq2024achievablefairnessdatautility} considers fairness within the context of machine learning models. 

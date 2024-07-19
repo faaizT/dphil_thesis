@@ -176,13 +176,13 @@ Let $w(y)=\frac{\ptar(y)}{\pbeh(y)}$ and $\rho(a, x) = \frac{\tar(a\mid x)}{\beh
 % \]
 % Additionally,
 \begin{align}
- w = \arg\min_{f} \, \Ebeh \left[(\rho(A, X)-f(Y))^2\right]. \label{eq:weights-obj}
+ w = \arg\min_{f} \, \Ebeh \left[(\rho(A, X)-f(Y))^2\right]. \label{eq:weights-obj-main}
 \end{align}
 \end{lemma}
 % \vspace{-2mm}
-Lemma \ref{lemma:weights-est} allows us to approximate $w(y)$ using a parametric family $\{f_\phi: \mathbb{R}\rightarrow \mathbb{R} \mid \phi \in \Phi\}$ (e.g.\ neural networks) and defining $\hat{w}(y)\coloneqq f_{\phi^*}(y)$, where $\phi^*$ solves the regression problem in Eq. \eqref{eq:weights-obj}. 
+Lemma \ref{lemma:weights-est} allows us to approximate $w(y)$ using a parametric family $\{f_\phi: \mathbb{R}\rightarrow \mathbb{R} \mid \phi \in \Phi\}$ (e.g.\ neural networks) and defining $\hat{w}(y)\coloneqq f_{\phi^*}(y)$, where $\phi^*$ solves the regression problem in Eq. \eqref{eq:weights-obj-main}. 
 
-% Hence, the weights $w(y)$ can be estimated by solving the regression problem in Eq. \eqref{eq:weights-obj}. 
+% Hence, the weights $w(y)$ can be estimated by solving the regression problem in Eq. \eqref{eq:weights-obj-main}. 
 % Similar techniques of estimating ratios of marginal densities have also been used in areas like likelihood-free inference \citep{brehmer2020mining}.
 % Similar techniques have also been used in areas like likelihood-free inference \citep{brehmer2020mining} to estimate the ratio of marginal densities.
 
@@ -313,7 +313,7 @@ When the weights $\rho(a, x)$ and $w(y)$ are known exactly and $\mu(A, X) \colon
 \end{align*}
 \end{proposition}
 \paragraph{Intuition}
-Proposition \ref{prop:var_dr} shows that if $\Vbeh\left[ \rho(A, X)\,Y \mid Y \right]$ is greater than $\Vbeh\left[ \rho(A, X)\,\mu(A, X) \mid X \right]$ on average, the variance of the MR estimator will be less than that of the DR estimator. 
+Proposition \ref{prop:var_dr} shows that if the conditional variance $\Vbeh\left[ \rho(A, X)\,Y \mid Y \right]$ is greater than $\Vbeh\left[ \rho(A, X)\,\mu(A, X) \mid X \right]$ on average, the variance of the MR estimator will be less than that of the DR estimator. 
 % In other words, 
 % the MR estimator will achieve lower variance 
 % will not always have lower variance than DR, however, 
@@ -403,7 +403,7 @@ The estimation of $\hat{w}(y)$ involves a two-step process that exclusively util
 % In practice, often the behaviour policy $\beh$ is not known and must be estimated through the logged observational data. 
 \begin{enumerate}[label=(\roman*)]
     \item First, we estimate the policy ratio $\hat{\rho}(a, x) \approx \frac{\tar(a | x)}{\beh(a | x)}$. This can be achieved by estimating the behaviour policy $\hatbeh$, and defining $\hat{\rho}(a, x)\coloneqq \frac{\tar(a\mid x)}{\hatbeh(a\mid x)}$. Alternatively, $\hat{\rho}(a, x)$ can also be estimated directly by using density ratio estimation techniques as in \cite{sondhi2020balanced}.
-    \item Secondly, we estimate the weights $\hat{w}(y)$ using Eq. \eqref{eq:weights-obj} with $\hat{\rho}$ instead of $\rho$.
+    \item Secondly, we estimate the weights $\hat{w}(y)$ using Eq. \eqref{eq:weights-obj-main} with $\hat{\rho}$ instead of $\rho$.
 \end{enumerate}
 
     % First, we estimate the behaviour policy $\hatbeh$, and define the policy ratio 
@@ -547,7 +547,7 @@ More generally, if $\hat{w}$ is a `noisy' estimate of the conditional expectatio
 
 % Using recent results regarding the generalisation error of wide neural networks \citep{lai2023generalization}, we show that when using 2-layer wide neural networks to approximate the weights $\hat{w}(y)$, then under mild assumptions, $\Ebeh[\epsilon^2]\leq O(m^{-2/3})$. Here $m$ is the number of training data used to approximate $\hat{w}(y)$. Due to space constraints, we include an informal statement of the result here. The main technical result has been included in Appendix \ref{sec:wide_nns_weight_estimation}.
 
-% Additionally, replacing the true behaviour policy $\beh$ by the estimate $\hatbeh$ in Eq. \eqref{eq:weights-obj} will 
+% Additionally, replacing the true behaviour policy $\beh$ by the estimate $\hatbeh$ in Eq. \eqref{eq:weights-obj-main} will 
 
 % if we approximate the marginal ratio $w(y)$ using the approximate 
 
@@ -565,7 +565,7 @@ Simlarly, the MR estimator can be written as
 $$
 \atemr = \frac{1}{n}\sum_{i=1}^n w_{\ate}(y_i)\times y_i, \qquad \textup{where, } \qquad w_{\ate}(y) = \frac{p_{\pi^{(1)}}(y) - p_{\pi^{(0)}}(y)}{\pbeh(y)},
 $$ 
-and $\pi^{(a)}(a'\mid x) \coloneqq \mathbbm{1}(a'=a)$ for $a\in \{0,1\}$, and $w_{\ate}(y)$ can be estimated using regression similar to Eq. \eqref{eq:weights-obj}.
+and $\pi^{(a)}(a'\mid x) \coloneqq \mathbbm{1}(a'=a)$ for $a\in \{0,1\}$, and $w_{\ate}(y)$ can be estimated using regression similar to Eq. \eqref{eq:weights-obj-main}.
 \end{comment}
 % Again, using the fact that $w_{\ate}(Y) \eqas \E[\rho_{\ate}(A, X)\mid Y]$, we can obtain $w_{\ate}$ by minimising a simple mean-squared loss:
 % \begin{align*}

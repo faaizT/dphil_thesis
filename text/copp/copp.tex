@@ -171,15 +171,20 @@ COPP enjoys both finite-sample theoretical guarantees and adaptivity w.r.t.\ the
 In summary, our contributions are: 
 % (i) We adapt results from the CP literature to construct predictive intervals for the outcome $Y$ under a new policy which are adaptive w.r.t.\ $X$.
 % (i) We construct valid predictive intervals for bandit outcomes that applies in more general settings (stochastic policies and continuous actions) than previous work.
-(i) We propose an application of CP to construct predictive intervals for bandit outcomes that is more general (applies to stochastic policies and continuous actions) than previous work.
-% Our approach is widely applicable: previous work involving CP has been limited to deterministic policies and discrete action spaces, while our method applies also for discrete and continuous.
-% Our approach is more widely applicable than previous work involving CP, and can be used for stochastic policies and continuous action spaces.
-% Our approach lifts restrictions present in related work involving CP, 
-% \R{Unlike related work involving CP, our approach can be applied to both deterministic and stochastic target policies, as well as discrete and continuous actions spaces.}
-% \R{Our approach avoids various restrictions of earlier work, being valid for stochastic target policies and continuous action spaces.} %, our approach can be applied to both deterministic and stochastic target policies, as well as discrete and continuous actions spaces.}
-% \R{Unlike related work involving CP, our approach can be applied to both deterministic and stochastic target policies}
-(ii) We provide theoretical guarantees for COPP, including finite-sample guarantees on marginal coverage and asymptotic guarantees on conditional coverage.
-(iii) We show empirically that COPP outperforms standard methods in terms of coverage and predictive interval width when assessing new policies. 
+% (i) We propose an application of CP to construct predictive intervals for bandit outcomes that is more general (applies to stochastic policies and continuous actions) than previous work.
+% % Our approach is widely applicable: previous work involving CP has been limited to deterministic policies and discrete action spaces, while our method applies also for discrete and continuous.
+% % Our approach is more widely applicable than previous work involving CP, and can be used for stochastic policies and continuous action spaces.
+% % Our approach lifts restrictions present in related work involving CP, 
+% % \R{Unlike related work involving CP, our approach can be applied to both deterministic and stochastic target policies, as well as discrete and continuous actions spaces.}
+% % \R{Our approach avoids various restrictions of earlier work, being valid for stochastic target policies and continuous action spaces.} %, our approach can be applied to both deterministic and stochastic target policies, as well as discrete and continuous actions spaces.}
+% % \R{Unlike related work involving CP, our approach can be applied to both deterministic and stochastic target policies}
+% (ii) We provide theoretical guarantees for COPP, including finite-sample guarantees on marginal coverage and asymptotic guarantees on conditional coverage.
+% (iii) We show empirically that COPP outperforms standard methods in terms of coverage and predictive interval width when assessing new policies. 
+\begin{enumerate}[label=(\roman*)]
+  \item We propose an application of CP to construct predictive intervals for bandit outcomes that is more general (applies to stochastic policies and continuous actions) than previous work.
+  \item We provide theoretical guarantees for COPP, including finite-sample guarantees on marginal coverage and asymptotic guarantees on conditional coverage.
+  \item We show empirically that COPP outperforms standard methods in terms of coverage and predictive interval width when assessing new policies. 
+\end{enumerate}
 
 \subsection{Problem setup}\label{sec:problem_setup}
 
@@ -374,7 +379,7 @@ Split $\mathcal{D}_{obs}$ into training data ($\mathcal{D}_{tr}$) and calibratio
 Use $\mathcal{D}_{tr}$ to estimate weights $\hat{w}(\cdot, \cdot)$ using \eqref{weight-est}\;
 Compute $V_i \coloneqq s(X_i, Y_i)$ for $(X_i, A_i, Y_i) \in \mathcal{D}_{cal}$\;
 Let $\hat{F}_{n}^{x, y}$ be the weighted distribution of scores 
-$\hat{F}_{n}^{x, y} \coloneqq  \sum_{i=1}^n p_i^{\hat{w}}(x, y) \delta_{V_i} + p_{n+1}^{\hat{w}}(x, y)\delta_{\infty}$\\
+$$\hat{F}_{n}^{x, y} \coloneqq  \sum_{i=1}^n p_i^{\hat{w}}(x, y) \delta_{V_i} + p_{n+1}^{\hat{w}}(x, y)\delta_{\infty}$$\\
 where $p_i^{\hat{w}}(x, y) = \frac{\hat{w}(X_i, Y_i)}{\sum_{j=1}^n \hat{w}(X_j, Y_j) + \hat{w}(x, y)}$ and $p_{n+1}^{\hat{w}}(x, y) = \frac{\hat{w}(x, y)}{\sum_{j=1}^n \hat{w}(X_j, Y_j) + \hat{w}(x, y)}$\;
 % \textcolor{red}{Define the empirical distribution $\hat{F}_{n} \coloneqq  \sum_{i=1}^n p_i^w(x) \delta_{V_i} + p_{n+1}^w(x)\delta_{\infty}$}\;
 % \textcolor{red}{where $p_i^w(x) = \frac{w(X_i)}{\sum_{j=1}^n w(X_j) + w(x)}$ and $p_{n+1}^w(x) = \frac{w(x)}{\sum_{j=1}^n w(X_j) + w(x)}$}\;
@@ -426,13 +431,14 @@ The key insight of our approach is to consider the following joint distribution 
 Therefore, the change of policies from $\pi^b$ to $\pi^*$ causes a shift in the joint distributions of $(X, Y)$ from $P^{\pi^{b}}_{X, Y}$ to $P^{\pi^*}_{X, Y}$. More precisely, a shift in the conditional distribution of $Y|X$. As a result, our problem boils down to using CP in the setting where the conditional distribution $P^{\pi^{b}}_{Y\mid X}$ changes to $P^{\pi^{*}}_{Y \mid X}$ due to the different policies, while the covariate distribution $P_X$ remains the same. 
 % =\mathrm{d}P^{\pi^{*}}_{X,Y}/\mathrm{d}P^{\pi^{b}}_{X,Y}(x,y)
 
-Hence our problem is not concerned about covariate shift as addressed in \cite{tibshirani2020conformal}, but instead uses the idea of \textit{weighted exchangeability} to extend CP to the setting of policy shift. To account for this distributional mismatch, our method shifts the empirical distribution of non-conformity scores at a point $(x, y)$ using the weights $w(x,y) = \mathrm{d}P^{\pi^{*}}_{X,Y}/\mathrm{d}P^{\pi^{b}}_{X,Y}(x,y) = \mathrm{d}P^{\pi^{*}}_{Y|X}/\mathrm{d}P^{\pi^{b}}_{Y|X}(x,y)$:
+Hence our problem is not concerned about covariate shift as addressed in \cite{tibshirani2020conformal}, but instead uses the idea of \textit{weighted exchangeability} to extend CP to the setting of policy shift. To account for this distributional mismatch, our method shifts the empirical distribution of non-conformity scores at a point $(x, y)$ using the weights $w(x,y) = \mathrm{d}P^{\pi^{*}}_{X,Y}/\mathrm{d}P^{\pi^{b}}_{X,Y}(x,y) = \mathrm{d}P^{\pi^{*}}_{Y|X}/\mathrm{d}P^{\pi^{b}}_{Y|X}(x,y)$ as follows:
 \begin{align}
    \textstyle  \hat{F}_{n}^{x, y} &\coloneqq \sum_{i=1}^n p_i^w(x, y)\delta_{V_i} + p_{n+1}^w(x,y)\delta_\infty, \label{score-dist-pshift}
 \end{align}
+where,
 \begin{align*}
-p_i^{w}(x, y)= \frac{w(X_i, Y_i)}{\sum_{j=1}^n w(X_j, Y_j) + w(x, y)}, \quad
-p_{n+1}^{w}(x, y) = \frac{w(x, y)}{\sum_{j=1}^n w(X_j, Y_j) + w(x, y)}. 
+p_i^{w}(x, y) &= \frac{w(X_i, Y_i)}{\sum_{j=1}^n w(X_j, Y_j) + w(x, y)} \quad \textup{and,} \\
+p_{n+1}^{w}(x, y) &= \frac{w(x, y)}{\sum_{j=1}^n w(X_j, Y_j) + w(x, y)}. 
 \end{align*}
 
 
@@ -445,7 +451,7 @@ p_{n+1}^{w}(x, y) = \frac{w(x, y)}{\sum_{j=1}^n w(X_j, Y_j) + w(x, y)}.
 % the calibration and test data in our setting are weighted exchangeable, with weights $w(x,y) =\mathrm{d}P^{\pi^{*}}_{X,Y}/\mathrm{d}P^{\pi^{b}}_{X,Y}(x,y)= \mathrm{d}P^{\pi^{*}}_{Y|X}/\mathrm{d}P^{\pi^{b}}_{Y|X}(x,y)$. Hence, we can extend the weighted version of CP to account for policy shift in the empirical distribution of non-conformity scores:
 % $p_i^w(x, y) \propto w(X_i, Y_i)$ for $i \in \{1,...,n\}$, $p^w_{n+1}(x, y)\propto w(x, y)$ with $\sum_{i=1}^{n+1} p^w_i(x, y)=1$.
 % where $p_{i}^w(x, y) \coloneqq \frac{w(X_i, Y_i)}{\sum_{i=1}^n w(X_i, Y_i) + w(x,y)}$, $p_{n+1}^w(x, y) \hspace{-0.1cm} \coloneqq \hspace{-0.1cm} \frac{w(x,y)}{\sum_{i=1}^n w(X_i, Y_i) + w(x,y)}$. 
-The intervals are then constructed as below which we call Conformal Off-Policy Prediction (Alg. \ref{cp_covariate_shift}).
+The intervals are then constructed as below which we call Conformal Off-Policy Prediction (see Algorithm \ref{cp_covariate_shift}).
 % As before, the predictive intervals can be constructed using
 \begin{align}
     \hat{C}_n(x^{test}) \coloneqq \{y: s(x^{test},y) \leq \eta(x^{test}, y)\} \hspace{0.2cm} \textup{where, }  \eta(x, y) \coloneqq \text{Quantile}_{1-\alpha}( \hat{F}_{n}^{x, y}). \label{cp-sets}
@@ -838,7 +844,7 @@ CP (union) &                     10.66 $\pm$ 0.18 &         11.04 $\pm$ 0.2 &   
  We start with synthetic experiments and an ablation study, in order to dissect and understand our proposed methodology in more detail. We assume that our policies are stationary and there is overlap between the behaviour and target policy, both of which are standard assumptions \citep{risk-assessment, drobust, ope-rl}.
 \subsubsection{Synthetic data experiments setup}
 
-In order to understand how COPP works, we construct a simple experimental setup where we can control the amount of ``\textit{policy shift}" and know the ground truth. In this experiment, $X \in \mathbb{R}$, $A \in \{1, 2, 3, 4\}$ and $Y \in \mathbb{R}$, where $X$ and $Y\mid x, a$ are normal random variables. Further details and additional experiments on continuous action spaces are given in Appendix \ref{sec:toy_experiments_descrip}.   
+In order to understand how COPP works, we construct a simple experimental setup where we can control the amount of \textit{``policy shift''} and know the ground truth. In this experiment, $X \in \mathbb{R}$, $A \in \{1, 2, 3, 4\}$ and $Y \in \mathbb{R}$, where $X$ and $Y\mid x, a$ are normal random variables. Further details and additional experiments on continuous action spaces are given in Appendix \ref{sec:toy_experiments_descrip}.   
 
 \paragraph{Behaviour and target policies}
 We define a family of policies $\pi_\epsilon(a \mid x)$, where we use the parameter $\epsilon \in (0,1/3)$ to control the policy shift between target and behaviour policies. Exact form of $\pi_\epsilon(a \mid x)$ is given in \ref{sec:toy_experiments_descrip}. For the behaviour policy $\pi^b$, we use $\epsilon^b = 0.3$ (i.e. $\pi^b(a \mid x) \equiv  \pi_{0.3}(a \mid x)$), and for target policies $\pi^*$, we use $\epsilon^* \in \{0.1, 0.2, 0.3\}$. Using the true behaviour policy, $\pi^b$, we generate observational data $\mathcal{D}_{obs} = \{x_i, a_i, y_i\}_{i=1}^{n_{obs}}$ which is then split into training ($\mathcal{D}_{tr}$) and calibration ($\mathcal{D}_{cal}$) datasets, of sizes $m$ and $n$ respectively.

@@ -816,7 +816,7 @@ Using the law of total variance, we get that
     \end{align*}
 \end{proof}
 
-Proposition \ref{prop:ate_var_dr} shows that if $\V\left[Y\, \rho_\ate(A, X) \mid Y \right]$ is greater than $\V\left[ \rho_\ate(A, X)\mu(A, X) \mid X \right]$ on average, the variance of the MR estimator will be less than that of the DR estimator. Intuitively, this is likely to happen when the dimension of context space $\Xspace$ is high because in this case, the conditional variance over $X$ and $A$, $\V\left[Y\, \rho_\ate(A, X) \mid Y \right]$ is likely to be greater than the conditional variance over $A$, $\V\left[ \rho_\ate(A, X)\mu(A, X) \mid X \right]$.
+Proposition \ref{prop:ate_var_dr} shows that if $\V\left[Y\, \rho_\ate(A, X) \mid Y \right]$ is greater than the conditional variance $\V\left[ \rho_\ate(A, X)\mu(A, X) \mid X \right]$ on average, the variance of the MR estimator will be less than that of the DR estimator. Intuitively, this is likely to happen when the dimension of context space $\Xspace$ is high because in this case, the conditional variance over $X$ and $A$, $\V\left[Y\, \rho_\ate(A, X) \mid Y \right]$ is likely to be greater than the conditional variance over $A$, $\V\left[ \rho_\ate(A, X)\mu(A, X) \mid X \right]$.
 
 % \newpage
 \section{Experimental Results}\label{app:experiments}
