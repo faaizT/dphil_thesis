@@ -31,14 +31,15 @@ Before we go into the specifics of these challenges, we introduce the framework 
 % In the following section, we specifically consider the setting of contextual bandits which provides a powerful framework for 
 % will delve deeper into the specifics of these challenges, explore the limitations of existing approaches, and showcase the contributions made by the included research papers.
 
-\section{Contextual bandits}
+\section{Off-policy evaluation in contextual bandits}
+\subsection{Contextual bandits}
 Contextual bandits \citep{Lattimore_Szepesvári_2020} provide a powerful framework for tackling decision-making problems where the effectiveness of an action depends on the specific context in which it is chosen. 
 For instance, in medical decision-making, the optimal treatment for a patient might depend on various factors such as their age, medical history, and current symptoms. 
 Contextual bandits allow us to model these complex decision-making scenarios by incorporating the notion of context.
 
 In this setting, we use covariates $X \in \mathcal{X}$ to denote features which encapsulate the contextual information such as the patient's age and medical history, we use $A \in \mathcal{A}$ to represent the action chosen by some real-world agent (such as a doctor), and $Y \in \mathcal{Y}$ to denote the outcome/reward observed as a result of taking action $A$, for example, $Y \in \{0, 1\}$ might represent whether a patient survives ($Y=1$) or not ($Y=0$). The goal of a learner in contextual bandits is to choose actions $A$ for a context $X$ which maximises the reward $Y$. 
 
-\subsection{Off-policy evaluation in contextual bandits}
+\subsection{Off-policy evaluation}
 Off-policy evaluation (OPE) tackles a crucial challenge in decision-making: assessing the performance of a new policy using data collected under a different policy \citep{swaminathan2015counterfactual, wang2017optimal, farajtabar2018more, su2019continuous, metelli2021subgaussian, liu2019triply, sugiyama2012machine, swaminathan2017off}. This is particularly valuable when conducting controlled experiments with the new policy is impractical or unethical. Here, we formally define the OPE problem in contextual bandits which will set up the challenges tackled in Chapters \ref{ch:3-mr} and \ref{ch:4-copp} of this thesis. 
 
 % Under Assumption \ref{assum:no-unmeasured-confounding}, we assume that the outcome and context are sampled from unknown probability distributions $p(y\mid x, a)$ and $p(x)$ respectively. 
@@ -60,10 +61,11 @@ To tackle this problem, the standard OPE methods make the following assumption.
 \end{assumption}
 
 Then, under Assumption \ref{assum:no-unmeasured-confounding}, the off-policy value can be estimated using importance-sampling-based methods. 
-However, these estimators come with their own set of limitations, which are described in the following section and form the basis of our contributions in Chapters \ref*{ch:3-mr} and \ref*{ch:4-copp}.
+However, these estimators come with their own set of limitations, which are described in the following section. 
+These limitations also form the basis of our contributions in Chapters \ref*{ch:3-mr} and \ref*{ch:4-copp}.
 
 \section{Limitations of existing OPE methods}
-\subsection{High variance in OPE estimators}\label{subsec:high-variance}
+\subsection{High variance of OPE estimators}\label{subsec:high-variance}
 The conventional off-policy value estimators use policy ratios $\rho(a, x) \coloneqq \tar(a\mid x)/\beh(a\mid x)$ as importance weights. 
 In cases where the two policies are significantly different, the policy ratios $\rho(a, x)$ attain extreme values leading to a high variance in the OPE estimators. 
 To alleviate this high variance, \cite{dudik2014doubly} proposed a \emph{Doubly Robust (DR)} estimator for OPE. 
@@ -120,7 +122,11 @@ which can be used to construct predictive intervals on the outcome under target 
 % where $\hat{\rho}(a, x) \coloneqq \frac{\pi^*(a \mid x)}{\hat{\pi}^b(a \mid x)}$ are the importance weights. \cite{chandak2021universal} show that $\hat{F}_{\textup{WIS}}(t)$ is a uniformly consistent estimator of the off-policy CDF, $F_{\tar}(t) \coloneqq \p_{\tar}(Y \leq t)$ where $\p_{\tar}$ denotes the probability under target policy.
 % Therefore, we can use $\hat{F}_{\textup{WIS}}$ to construct predictive intervals on the outcome $Y$ under target policy $\tar$. This can help us quantify the range of plausible outcomes $Y$ that are likely to occur if actions are chosen according to target policy $\tar$. However, the resulting bounds do not depend on the context $X$ (i.e., are not adaptive w.r.t. $X$). This can lead to overly conservative intervals, which may not be very informative. In Chapter \ref{ch:4-copp}, we circumvent this problem by proposing a methodology of constructing predictive intervals on $Y$ under target policy $\tar$ which are adaptive w.r.t. context $X$ and are therefore considerably more informative.
 
-\section{Sequential decision setting}
+\section{Causal considerations for sequential decisions}
+Having outlined some of the key limitations of OPE methods in contextual bandits, we now move on to the causal considerations for off-policy decision-making which will set up our contribution in Chapter \ref*{ch:5-causal}. 
+Before we dive deeper into this topic, we introduce the sequential decision settings which will form the basis of the framework considered in Chapter \ref*{ch:5-causal}.
+
+\subsection{Sequential decision settings}
 Contextual bandits encapsulate the single-decision regimes where, for each observed context, we take a single action and observe the resulting outcome. This is analogous to a doctor choosing a single treatment for a patient based on their current state. However, many real-world decision-making scenarios involve multiple interventions over time, where each action not only affects the immediate outcome but also influences the context for future decisions. To capture this complexity, we introduce the sequential decision setting in this section. This setting extends the framework of contextual bandits to handle sequential decision-making problems, allowing us to model more complex scenarios where interventions unfold over time and the context evolves dynamically.
 
 We consider a setting with a fixed number of decisions per episode (i.e., a fixed time horizon) $T \in \{1, 2, \ldots\}$. For each $t\in \{0, \ldots, T\}$, we assume that the process gives rise to an observation at time $t$, denoted by $X_t$ which takes values in some space $\mathcal{X}_t \coloneqq \R^{\Xspacedim_\tx}$. 
@@ -131,18 +137,16 @@ The actions taken up till time $t$, i.e. $(A_1, A_2, \ldots, A_t)$ can influence
 This describes the sequential decision setting, of which the contextual bandits are a special case when $T=1$. 
 % To make this concrete, in a robotics context, the observations may consist of all the readings of all the sensors of the robot, and the actions may consist of commands that can be input by an external user. In a medical context, the observations may consist of the vital signs of a patient, and the actions may consist of possible treatments or interventions. 
 
-\subsection{Assumption of no unmeasured confounding}
+\subsection{Causal unidentifiability under unmeasured confounding}\label{subsec:unmeasured-confounding}
 Most of the standard OPE methods for contextual bandits can be straightforwardly extended to sequential decision settings \citep{uehara2022reviewoffpolicyevaluationreinforcement}. 
-However, like in contextual bandits, these estimators assume no unmeasured confounding (outlined in Assumption \ref{assum:no-unmeasured-confounding}) in the available observational data. This assumption is unverifiable from the observational data alone and is violated in many real-world circumstances where some information not captured in the data influences not only the action chosen $A_t$, but also the future observations $(X_t, X_{t+1}, \ldots, X_T)$. This can happen when the real-world agent has access to more information than is captured in the data. 
-In such circumstances, the causal effect of a given action sequence may be unidentifiable from the available observational data, making it impossible to accurately estimate the value of the target policy.
-To make this concrete, we provide an intuitive illustration of this phenomenon below using a toy example where the available observational suffers from unmeasured confounding.
+However, like in contextual bandits, these estimators assume no unmeasured confounding (outlined in Assumption \ref{assum:no-unmeasured-confounding}) in the available observational data. 
+Informally, in the sequential decision setting, this assumption holds when each action $\A_\tx$ is chosen by the behavioural agent solely on the basis of the information available at time $\tx$ that is actually recorded in the dataset, namely $\X_{0}, \A_1, \X_1, \ldots, \A_{\tx-1}, \X_{\tx-1}$, as well as possibly some additional randomness that is independent of the real-world process, such as the outcome of a coin toss. 
+Unobserved confounding is present whenever this does not hold, i.e.\ whenever some unmeasured factor simultaneously influences both the agent's choice of action and the observation produced by the real-world process.
+% This assumption is unverifiable from the observational data alone and is violated in many real-world circumstances where some information not captured in the data influences not only the action chosen $A_t$, but also the future observations $(X_t, X_{t+1}, \ldots, X_T)$. 
+This can happen when the real-world agent has access to more information than is captured in the data. 
+In such circumstances, the causal effect of a given action sequence may be unidentifiable from the available observational data, making it impossible to accurately estimate the value of a target policy.
+To make this concrete, we provide an intuitive illustration of this phenomenon below using a toy example where the available observational data suffers from unmeasured confounding.
 
-\begin{figure}[t]
-    \centering
-    \includegraphics[height=3.3cm]{figures/causal/synthetic_example_newest2.pdf}
-    \caption{The discrepancy between observational data and interventional behaviour in the presence of unmeasured confounding: the range of outcomes observed in the data for patients who were administered the drug (blue) differs from what \emph{would} be observed if the drug were administered to the general population (red).}
-    \label{fig:syn_ex_intro}
-\end{figure}
 
 \begin{importantresultwithtitle}[title=Toy example: Unmeasured confounding in medical decision-making]\noindent
 Suppose that we are interested in estimating the effect of a drug on the weight of patients in a certain population. 
@@ -159,9 +163,15 @@ this scenario. In this example, since the data $\D$ contains no information abou
     
 \end{importantresultwithtitle}
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[height=3.3cm]{figures/causal/synthetic_example_newest2.pdf}
+    \caption{The discrepancy between observational data and interventional behaviour in the presence of unmeasured confounding: the range of outcomes observed in the data for patients who were administered the drug (blue) differs from what \emph{would} be observed if the drug were administered to the general population (red).}
+    \label{fig:syn_ex_intro}
+\end{figure}
 
-\subsubsection{Causal considerations under unmeasured confounding}\label{subsec:unmeasured-confounding}
-Here, we elaborate further on the implications of unmeasured confounding on the identifiability of causal effects in sequential decision setting. This topic forms the central focus of Chapter \ref{ch:5-causal} of this thesis.
+% \subsection{Causal unidentifiability under unmeasured confounding}\label{subsec:unmeasured-confounding}
+% Here, we elaborate further on the implications of unmeasured confounding on the identifiability of causal effects in sequential decision setting. This topic forms the central focus of Chapter \ref{ch:5-causal} of this thesis.
 % \paragraph{Observational data}
 % Recall that in this setting, our observational data comprises trajectories obtained by observing the interaction of some behavioural agents with the real-world process.
 % We model each trajectory as follows.
@@ -172,12 +182,12 @@ Here, we elaborate further on the implications of unmeasured confounding on the 
 %     \X_0, \A_1, \X_1(\A_1), \ldots, \A_\T, \X_\T(\A_{1:\T}).
 % \end{equation}
 
-Informally, the assumption of no unmeasured confounding holds when each action $\A_\tx$ is chosen by the behavioural agent solely on the basis of the information available at time $\tx$ that is actually recorded in the dataset, namely $\X_{0}, \A_1, \X_1, \ldots, \A_{\tx-1}, \X_{\tx-1}$, as well as possibly some additional randomness that is independent of the real-world process, such as the outcome of a coin toss. Unobserved confounding is present whenever this does not hold, i.e.\ whenever some unmeasured factor simultaneously influences both the agent's choice of action and the observation produced by the real-world process.
+% Informally, the assumption of no unmeasured confounding holds when each action $\A_\tx$ is chosen by the behavioural agent solely on the basis of the information available at time $\tx$ that is actually recorded in the dataset, namely $\X_{0}, \A_1, \X_1, \ldots, \A_{\tx-1}, \X_{\tx-1}$, as well as possibly some additional randomness that is independent of the real-world process, such as the outcome of a coin toss. Unobserved confounding is present whenever this does not hold, i.e.\ whenever some unmeasured factor simultaneously influences both the agent's choice of action and the observation produced by the real-world process.
 
 
-While it may be reasonable to assume that the data are unconfounded in certain contexts. For example, in certain situations it may be possible to gather data in a way that specifically guarantees there is no confounding.
+In certain contexts it may be reasonable to assume that the data are unconfounded. For example, in certain situations it may be possible to gather data in a way that specifically guarantees there is no confounding.
 Randomised controlled trials, which ensure that each $\A_\tx$ is chosen via a carefully designed randomisation procedure \citep{lavori2004dynamic,murphy2005experimental}, constitute a widespread example of this approach. However, for typical datasets, it is widely acknowledged that the assumption of no unmeasured confounding will rarely hold, and so OPE procedures based on this assumption may yield unreliable results in practice \citep{murphy2003optimal,tsiatis2019dynamic}. 
-This result is formalised in a foundational result from the causal inference literature, often referred to as the \emph{fundamental problem of causal inference} \citep{holland1986statistics}.
+This is formalised in a foundational result from the causal inference literature, often referred to as the \emph{fundamental problem of causal inference} \citep{holland1986statistics}.
 % shows that the value for a deterministic target policy (which always chooses a given action sequence $\ax_{1:\tx}$ regardless of the past observations $X_{0:\tx-1}(\ax_{1:\tx-1})$) is unidentifiable.
 \begin{mainresultwithtitle}[title=Fundamental problem of causal inference (informal statement)]\noindent
     The causal effect of an action is not uniquely identified by the observational data distribution in the presence of unmeasured confounding (without additional assumptions).
@@ -528,15 +538,15 @@ Given data collected under a behavioral policy, we propose \emph{conformal off-p
 
 \paragraph*{Chapter \ref*{ch:5-causal}: Causal considerations \citep{cornish2023causalfalsificationdigitaltwins}}
 In this chapter we consider the sequential decision setting, where the available observational data may suffer from unmeasured confounding. 
-As mentioned in Section \ref{subsec:unmeasured-confounding}, fundamental results from causal inference mean that in this setting the interventional behaviour of outcomes is unidentifiable from the observational distribution.  
+As mentioned in Section \ref{subsec:unmeasured-confounding}, fundamental results from causal inference mean that in this setting the causal effect of interventions is unidentifiable from the observational distribution.  
 To address this challenge, we provide a novel set of longitudinal causal bounds that remain valid under arbitrary unmeasured confounding.
 
 Chapter \ref*{ch:5-causal} focuses on the application of these 
 % We apply these 
 bounds for assessing the accuracy of \emph{digital twin models}.
 These models are virtual systems designed to predict how a real-world process will evolve in response to interventions. 
-To be considered accurate, these models must correctly capture the true interventional behaviour of outcomes.
-Unfortunately, the causal unidentifiability results mean observational data cannot be used to certify a twin in this sense if the data are confounded.
+To be considered accurate, these models must correctly capture the true causal effects of interventions.
+Unfortunately, the causal unidentifiability results mean that observational data cannot be used to certify a twin in this sense if the data are confounded.
 To circumvent this, we instead use our proposed causal bounds to find situations in which the twin \emph{is not} correct, and present a general-purpose statistical procedure for doing so.
 Our approach yields reliable and actionable information about the twin under only the assumption of an i.i.d.\ dataset of observational trajectories, and remains sound even if the data are confounded.
 
@@ -571,7 +581,7 @@ Here, we list these papers along with a brief description in chronological order
     Interventional Shapley Values. In \textit{\textcolor{purple}{International Conference on Artificial Intelligence and
     Statistics, 2023}}.  \citep{taufiq2023manifold}
     \item  \textbf{Muhammad Faaiz Taufiq}, Jean-Francois Ton, and Yang Liu. Achievable Fairness on your Data
-    with Utility Guarantees. Under review at \textit{NeurIPS 2024}. \citep{taufiq2024achievablefairnessdatautility}
+    with Utility Guarantees. \textit{Preprint}. \citep{taufiq2024achievablefairnessdatautility}
     \item Yang Liu, Yuanshun Yao, Jean-Francois Ton, Xiaoying Zhang, Ruocheng Guo, Hao Cheng, Yegor
     Klochkov, \textbf{Muhammad Faaiz Taufiq}, and Hang Li. 
     Trustworthy LLMs: A Survey and Guideline for Evaluating Large Language Models' Alignment, 2023. 
