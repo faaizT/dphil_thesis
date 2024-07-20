@@ -1,6 +1,9 @@
 # To-dos
 
-- add contributions sections after each paragraph
+- Go over the whole thing one more time
+- Go over Rob's comments
+- Go over other thesis to ensure everything has been added
+- Take a look at the submission portal
 
 ### Done
 
@@ -11,3 +14,4 @@
 - write the conclusion --> done
 - fix the first part of intro --> done
 - heading capitalization consistency --> done
+- add contributions sections after each paragraph --> done

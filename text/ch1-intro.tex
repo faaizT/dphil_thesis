@@ -26,7 +26,7 @@ However, off-policy evaluation presents its own set of challenges. These challen
     \item \textbf{Causal unidentifiability:} In many cases, it may be impossible to definitively establish the causal effects of actions even if we had access to infinite data. This arises due to factors like confounding variables, which can influence both the treatment and the outcome. Imagine the existence of some unmeasured factors, such as a patient's pre-existing conditions, that can influence both their initial treatment and their response to the treatment. This makes it challenging to isolate the true causal effect of the new treatment from the influence of these confounding variables \citep{tsiatis2019dynamic,kallus2018confounding,namkoong2020offpolicy}.
 \end{itemize}
 This thesis tackles these challenges head-on, proposing novel methods for off-policy evaluation that address both statistical and causal uncertainties.
-Before we go into the specifics of these challenges, we introduce the framework of contextual bandits which forms the basis of the setting considered in Chapters \ref{ch:3-mr} and \ref{ch:4-copp}. 
+Before we go into the specifics of these challenges, we introduce the problem of off-policy evaluation in contextual bandits which forms the basis of the setting considered in Chapters \ref{ch:3-mr} and \ref{ch:4-copp}. 
 
 % In the following section, we specifically consider the setting of contextual bandits which provides a powerful framework for 
 % will delve deeper into the specifics of these challenges, explore the limitations of existing approaches, and showcase the contributions made by the included research papers.
@@ -190,7 +190,7 @@ Randomised controlled trials, which ensure that each $\A_\tx$ is chosen via a ca
 This is formalised in a foundational result from the causal inference literature, often referred to as the \emph{fundamental problem of causal inference} \citep{holland1986statistics}.
 % shows that the value for a deterministic target policy (which always chooses a given action sequence $\ax_{1:\tx}$ regardless of the past observations $X_{0:\tx-1}(\ax_{1:\tx-1})$) is unidentifiable.
 \begin{mainresultwithtitle}[title=Fundamental problem of causal inference (informal statement)]\noindent
-    The causal effect of an action is not uniquely identified by the observational data distribution in the presence of unmeasured confounding (without additional assumptions).
+    The causal effect of an action is not uniquely identified by the observational data distribution without additional assumptions.
 \end{mainresultwithtitle}
 
 % \begin{theorem}\label{thm:unidentifiability-intro}
@@ -562,7 +562,8 @@ In this chapter, we also discuss some of the limitations of our proposed methodo
 In this section, we provide an overview of the research conducted during the doctoral studies by listing the papers which are included in this thesis, as well those which have been omitted.
 
 \subsection{Works included in the thesis}
-Each chapter of this thesis is based on a paper. These papers are listed in chronological order here for completeness.
+This is an integrated thesis where each chapter comprises a paper and therefore is self-contained.
+These are listed here in chronological order for completeness.
 \begin{enumerate}
     \item \textbf{Muhammad Faaiz Taufiq}*, Jean-Francois Ton*, Rob Cornish, Yee Whye Teh, and Arnaud Doucet.
     Conformal Off-Policy Prediction in Contextual Bandits. In \textit{\textcolor{purple}{Advances in Neural Information Processing
