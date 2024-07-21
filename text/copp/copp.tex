@@ -368,7 +368,7 @@ In standard CP (without covariate shift), the weight function satisfies $w(x)=1$
 \begin{align*}
      \mathbb{P}_{(X,Y)\sim \tilde{P}_{X, Y}}(Y\in \hat{C}_n(X)) \geq 1-\alpha    
 \end{align*}
-As mentioned previously in Sec. \ref{sec:problem_setup}, the above demonstrates marginal coverage guarantees over test point $X$ \faaiz{and calibration dataset $\mathcal{D}_{cal}$, not conditional on a given $X=x$ or a fixed $\mathcal{D}_{cal}$}.  We will discuss this nuance later on in Sec. \ref{sec:cond_cov}. In addition, previous work by \citeauthor{vovk2012} shows that conditioned on a single calibration dataset, standard CP can achieve coverage that is `close' to the required coverage with high probability. However, this has not been extended to the case where the distribution shifts. This is out of the scope of this paper and an interesting future direction. 
+As mentioned previously in Sec. \ref{sec:problem_setup}, the above demonstrates marginal coverage guarantees over test point $X$ and calibration dataset $\mathcal{D}_{cal}$, not conditional on a given $X=x$ or a fixed $\mathcal{D}_{cal}$.  We will discuss this nuance later on in Sec. \ref{sec:cond_cov}. In addition, previous work by \citeauthor{vovk2012} shows that conditioned on a single calibration dataset, standard CP can achieve coverage that is `close' to the required coverage with high probability. However, this has not been extended to the case where the distribution shifts. This is out of the scope of this paper and an interesting future direction. 
 
 
 \begin{algorithm}[!htp]
