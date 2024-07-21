@@ -68,7 +68,7 @@ In addition to improving robustness, this also means our resulting methodology i
 
 % Our contribution has the following components.
 We begin by providing a causal model for a general-purpose twin and the data we have available for assessment.
-We use this to show precisely it is not possible to use observational data to \emph{certify} that the twin is causally accurate unless strong and often tenuous assumptions are made about the data-generating process, such as that the data are free of unmeasured confounding.
+We use this to show precisely that it is not possible to use observational data to \emph{certify} that the twin is causally accurate unless strong and often tenuous assumptions are made about the data-generating process, such as that the data are free of unmeasured confounding.
 % This is because observational data may contain spurious relationships between actions taken and the resulting outcomes, so that certain actions \emph{appear} to have a causal effect that is instead explained by some hidden quantity.
 % assessment procedures that attempt to use observational data to certify that the twin is accurate are unsound in general unless strong and often tenuous assumptions are made about the data-generating process.
 To avoid these assumptions, we propose an assessment paradigm instead based on \emph{falsification}: we search for specific cases when the twin is \emph{not} accurate, rather than trying to quantify its accuracy in a more holistic sense. %,  rather than trying to show that its 
@@ -131,7 +131,7 @@ We do so in the language of \emph{potential outcomes} \citep{rubin1974estimating
 % To streamline our presentation, we eschew certain mathematical details in the main text, especially relating to measure theory; however, the \AppendixName includes precise statements of all definitions and results that we mention.
 We assume the real-world process operates over a fixed time horizon $\T \in \{1, 2, \ldots\}$.
 This simplifies our presentation in what follows, and it is straightforward to generalize our methodology to variable length time horizons if needed.
-For each $\tx \in \{0, \ldots, \T\}$, we assume the process gives rise to a \emph{observation} at time $\tx$, which takes values in some real-valued space $\Xspace_\tx \coloneqq \R^{\Xspacedim_\tx}$.
+For each $\tx \in \{0, \ldots, \T\}$, we assume the process gives rise to an \emph{observation} at time $\tx$, which takes values in some real-valued space $\Xspace_\tx \coloneqq \R^{\Xspacedim_\tx}$.
 % standard Borel space $\Xspace_\tx$. %, and which is allowed to be multidimensional to encode multiple relevant features. % rather than only a single measurement.
 We also assume that the process can be influenced by some \emph{action} taken at each time $\tx \in \{1, \ldots, \T\}$.
 We denote the space of actions available at time $\tx$ by $\Aspace_\tx$, which in this work we assume is always finite.
@@ -149,7 +149,7 @@ These quantities are therefore of fundamental interest for planning a course of 
 % , since it determines how actions should be chosen to achieve a sequence of outcomes with optimal utility.
 
 As random variables, each $\X_{\tx}(\ax_{1:\tx})$ may depend on additional randomness that is not explicitly modelled, and so in particular may be influenced by all the previous potential outcomes $\X_{0:\tx-1}(\ax_{1:\tx-1})$, and possibly other random quantities.
-This models a process whose initial state is determined by external factors, such as when a patient from some population first presents at a hospital, and where the process then evolves according both to specific actions chosen from $\Aspace_{1:\T}$ as well as additional external factors.
+This models a process whose initial state is determined by external factors, such as when a patient from some population first presents at a hospital, and where the process then evolves according to specific actions chosen from $\Aspace_{1:\T}$ as well as additional external factors.
 It is clear that this structure applies to a wide range of phenomena occurring in practice.
 
 % and may be thought of as the counterpart of the $\xx_0$ values in each potential outcome for the twin, which represent a specific initialisation of the twin that is input deterministically by a user.
@@ -463,7 +463,7 @@ In Section \ref{sec:hypotheses-from-causal-bounds}, we use these bounds to defin
 
 
 \begin{theorem} \label{thm:causal-bounds}
-    Suppose $(\Y(\ax_{1:\tx}) : \ax_{1:\tx} \in \Aspace_{1:\tx})$ are real-valued potential outcomes defined jointly with $(\X_{0:\T}(\ax_{1:\T}) : \ax_{1:\T} \in \Aspace_{1:\T})$ and $\A_{1:\T}$, and that for some $\tx \in \{1, \ldots, \T\}$, $\ax_{1:\tx} \in \Aspace_{1:\tx}$, measurable $\B_{0:\tx} \subseteq \Xspace_{0:\tx}$, and $\ylo, \yup \in \R$ we have
+    Suppose $(\Y(\ax_{1:\tx}) : \ax_{1:\tx} \in \Aspace_{1:\tx})$ are real-valued potential outcomes defined jointly with $(\X_{0:\T}(\ax_{1:\T}) : \ax_{1:\T} \in \Aspace_{1:\T})$ and $\A_{1:\T}$. If for some $\tx \in \{1, \ldots, \T\}$, $\ax_{1:\tx} \in \Aspace_{1:\tx}$, measurable $\B_{0:\tx} \subseteq \Xspace_{0:\tx}$, and $\ylo, \yup \in \R$ we have
 %     \begin{align}
 \noindent
 % \begin{minipage}[b]{0.35\linewidth}
@@ -480,13 +480,13 @@ In Section \ref{sec:hypotheses-from-causal-bounds}, we use these bounds to defin
 % \end{align}
     \begin{gather}
         \Prob(\X_{0:\tx}(\ax_{1:\tx}) \in \B_{0:\tx}) > 0 \label{eq:B-positivity-assumption} \\
-        \Prob(\ylo \leq \Y(\ax_{1:\tx}) \leq \yup \mid \X_{0:\tx}(\ax_{1:\tx}) \in \B_{0:\tx}) = 1.  \label{eq:Y-boundedness-assumption}
+        \Prob(\ylo \leq \Y(\ax_{1:\tx}) \leq \yup \mid \X_{0:\tx}(\ax_{1:\tx}) \in \B_{0:\tx}) = 1,  \label{eq:Y-boundedness-assumption}
     \end{gather}
-    \noindent Then it holds that
+    \noindent then it holds that
     \begin{equation} \label{eq:causal-bounds-fully-written}
         \E[\Ylo \mid \X_{0:\N}(\A_{1:\N}) \in \B_{0:\N}]
         \leq \E[\Y(\ax_{1:\tx}) \mid \X_{0:\tx}(\ax_{1:\tx}) \in \B_{0:\tx}]
-        \leq  \E[\Yup \mid \X_{0:\N}(\A_{1:\N}) \in \B_{0:\N}].
+        \leq  \E[\Yup \mid \X_{0:\N}(\A_{1:\N}) \in \B_{0:\N}],
     \end{equation}
     % where we define the following random variables \faaiz{awkward}: $\N \coloneqq \max \{0 \leq \sx \leq \tx \mid \A_{1:\sx} = \ax_{1:\sx}\}$,
     where we define $\N \coloneqq \max \{0 \leq \sx \leq \tx \mid \A_{1:\sx} = \ax_{1:\sx}\}$, and similarly
@@ -578,7 +578,7 @@ In Section \ref{sec:case-study} below, we also show empirically that Theorem \re
 
 \begin{proposition} \label{prop:our-bounds-vs-manskis}
     Consider the same setup as Theorem \ref{thm:causal-bounds}, where also $\ylo \leq \Y(\ax_{1:\tx}) \leq \yup$ almost surely.
-    If $\Prob(\A_{1:\tx} = \ax_{1:\tx} \mid \X_{0:\N}(\A_{1:\N}) \in \B_{0:\N}) > \Prob(\A_{1:\tx} = \ax_{1:\tx})$, then the width of Manski's bounds exceeds that of Theorem \ref{thm:causal-bounds}, i.e.\ $\Qup - \Qlo < \E[\Yup] - \E[\Ylo]$.
+    If $\Prob(\A_{1:\tx} = \ax_{1:\tx} \mid \X_{0:\N}(\A_{1:\N}) \in \B_{0:\N}) > \Prob(\A_{1:\tx} = \ax_{1:\tx})$, then the width of Manski's bounds exceeds that of Theorem \ref{thm:causal-bounds}, i.e.\ $\E[\Yup] - \E[\Ylo] > \Qup - \Qlo$.
 \end{proposition}
 
 Beyond allowing us to obtain tighter bounds, the conditional nature of Theorem \ref{thm:causal-bounds} also appears of interest simply for its own sake.
@@ -1081,7 +1081,8 @@ We took \(\ylo\) and \(\yup\) to be the .2 and .8 quantiles of the same physiolo
 We describe this procedure in full in Section \ref{sec:hypothesis-parameters-supplement} of the \AppendixName.
 We also investigated the sensitivity of our procedure to the choice of $\ylo$ and $\yup$ and found it to be relatively stable: see Section \ref{sec:sensitity-analysis-appendix} of the \AppendixName.
 % We selected values for \(\ylo\) and \(\yup\) again using $\D_0$, and defined \(\fx\) as the function which extracts the physiological quantity from \(\Xspace_\tx\) and clip its value between \(\ylo\) and \(\yup\).
-We obtained 721 unique parameter choices, leading to 1,442 total hypotheses.
+We obtained 721 unique parameter choices, each of which produced two hypotheses $\Hlo$ and $\Hup$, leading to 1,442 hypotheses in total.
+% We obtained 721 unique parameter choices, leading to 1,442 total hypotheses.
 % A more detailed methodology and its implications are further elaborated in the \AppendixName.
 % For each of the \faaiz{fix} 14 different physiological quantities listed in Table \ref{tab:hypotheses}, we chose the values for \(\ylo\) and \(\yup\) (again using $\D_0$) and defined \(\fx\) as the function which extracts the physiological quantity from \(\Xspace_\tx\) and clip its value between \(\ylo\) and \(\yup\). This process yielded 721 unique parameter choices, leading to 1,442 total hypotheses. A more detailed methodology and its implications are further elaborated in the \AppendixName.
 
@@ -1246,7 +1247,7 @@ To assess the relative performance of our bounds from Theorem \ref{thm:causal-bo
 This in turn led to fewer hypotheses, namely 690 in total, which were evenly divided between hypotheses of the form $\E[\Yt(\ax_{1:\tx})] \geq \E[\Ylo]$ and those of the form $\E[\Yt(\ax_{1:\tx})] \leq \E[\Yup]$.
 We kept all other aspects of our procedure the same as just described, including our method for obtaining confidence intervals and controlling for multiple testing.
 The number of rejections that we obtained in this case is also shown in Table \ref{tab:hypotheses}.
-As anticipated by our discussion in Section \ref{sec:informativeness-of-our-bounds}, the use of Manski's bounds led to considerably fewer rejections than our more general result given in Theorem \ref{thm:causal-bounds}, even when considered as a proportion of the total hypotheses we tested.
+As anticipated by our discussion in Section \ref{sec:informativeness-of-our-bounds}, the conservativeness of Manski's bounds led to considerably fewer rejections than our more general result given in Theorem \ref{thm:causal-bounds}, even when considered as a proportion of the total hypotheses we tested.
 
 % using the identical procedure as just described, but where each $\B_{0:\tx}$ used in any hypothesis parameters was replaced by $\Xspace_{0:\tx}$.
 % This led to \rob{ref} 
@@ -1424,9 +1425,10 @@ We see opportunities here for using machine learning techniques, but leave this 
 % That said, if our assessment indicates that the twin does poorly on average across the population, then it must necessarily do so for a large proportion of its units, which would give reason for mistrusting the outputs of the twin on any specific individual.
 
 Various other extensions and improvements appear possible.
-For example, it is possible to replace our one-sided confidence intervals for $\Qlo$, $\Qup$, and $\Qt$ with two-sided ones, and thereby to obtain a procedure that may yield more precise information about the twin than we obtain by rejecting one of $\Hlo$ or $\Hup$.
+For example, 
+% it is possible to replace our one-sided confidence intervals for $\Qlo$, $\Qup$, and $\Qt$ with two-sided ones, and thereby to obtain a procedure that may yield more precise information about the twin than we obtain by rejecting one of $\Hlo$ or $\Hup$.
 % We outline this at a high level in Section \ref{sec:two-sided-intervals-supplement} of the \AppendixName.
-One can also leverage ideas from the literature on partial identification \citep{manski2003partial} to obtain greater statistical efficiency, for example by building on the line of work initiated by \cite{imbens2004confidence} for obtaining more informative confidence intervals.
+one can leverage ideas from the literature on partial identification \citep{manski2003partial} to obtain greater statistical efficiency, for example by building on the line of work initiated by \cite{imbens2004confidence} for obtaining more informative confidence intervals.
 % We also perceive opportunities for leveraging ideas from the literature on partial identification \cite{manski2003partial} to obtain a more efficient statistical procedure, for example by building on the line of work initiated by \cite{imbens2004confidence} for obtaining more informative confidence intervals in this context.
 % One concrete possibility would be to consider techniques based on confidence intervals that cover directly the non-identified parameter $\Q$ in the manner proposed by \cite{imbens2004confidence}, which are more informative than intervals that cover the entire identified region $[\Qlo, \Qup]$ as we use.
 Beyond this, it may sometimes be useful to consider additional assumptions that lead to less conservative assessment results.
