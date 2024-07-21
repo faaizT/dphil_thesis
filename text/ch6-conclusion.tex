@@ -9,7 +9,7 @@ Before deploying a decision-making policy to production, it is usually important
 plausible range of outcomes that it may produce. However, due to resource or ethical constraints, it is
 often not possible to obtain this understanding by testing the policy directly in the real-world. In such
 cases we have to rely on off-policy evaluation (OPE), which uses observational data collected under a different behavioural policy to evaluate the target policy in some way. 
-In this thesis, we have considered the different challenges posed by the current OPE methodologies and proposed novel solutions to each of these individually.
+In this thesis, we have considered some of the challenges posed by the current OPE methodologies and proposed novel solutions to each of these individually.
 We have also demonstrated the practical utility of these solutions by applying them to a range of real-world problems involving large scale datasets.
 To be more specific, below we provide a brief summary of the challenges tackled in this thesis:
 \begin{itemize}
@@ -29,16 +29,16 @@ Here, we outline some of the limitations of the methodologies described in this 
 Our methodologies highlighted in this thesis implicitly assume that the data generating process remains unchanged between testing and deployment times. 
 Technically, for contextual bandits this assumption means that the conditional distribution of $Y$ given $(X, A)$ does not shift when the target policy is deployed. 
 If this distribution changes at deployment time, then so too does the distribution of outcomes that \emph{would} be observed under the target policy. 
-If this shift is significant enough our methodologies may yield misleading results.  
+If this shift is significant enough, our methodologies may yield misleading results.  
 
 \paragraph*{Estimation errors}
 The techniques mentioned in Chapters \ref*{ch:3-mr} and \ref*{ch:4-copp} involve an additional estimation of marginal density ratios for importance sampling. 
-While we outline straightforward regression methodologies for estimating these importance ratios directly, this additional step may still introduce an additional source of bias in the value estimation. 
+While we outline straightforward regression methodologies for estimating these importance ratios directly, this step may still introduce an additional source of bias in the value estimation. 
 
 \paragraph*{Scalability limitations}
-Increasing data dimensionality may pose additional challenges for our solutions, especially those described in Chapter \ref*{ch:4-copp} and \ref*{ch:5-causal}. 
-For example, in Chapter \ref*{ch:4-copp}, the estimation of importance ratios for our conformal off-policy prediction (COPP) algorithm may become more challenging when $(X, A)$ is high dimensional, thereby yielding biased results.
-Likewise in Chapter \ref*{ch:5-causal}, the procedure we used in our case study to choose the hypothesis parameters was ad hoc, which may not scale to high dimensional datasets.
+Increasing data dimensionality may pose additional challenges for our solutions, especially those described in Chapters \ref*{ch:4-copp} and \ref*{ch:5-causal}. 
+For example, in Chapter \ref*{ch:4-copp}, the estimation of importance ratios for our conformal off-policy prediction (COPP) algorithm may become more challenging when $(X, A)$ is high-dimensional, thereby yielding biased results.
+Likewise in Chapter \ref*{ch:5-causal}, the procedure we used in our case study to choose the hypothesis parameters was ad hoc, which may not scale to high-dimensional datasets.
 For scalability, it would likely be necessary to obtain these parameters via a more automated procedure.
 
 \section{Directions for future work}
@@ -46,11 +46,11 @@ Our work in this thesis opens up several interesting avenues for future research
 
 \paragraph*{Off-policy learning}
 This thesis has largely focused on robust off-policy assessment methodologies. However, our findings are highly applicable to robust policy optimisation problems, where the data collected using an `old’ policy is used to learn a new policy. 
-Proximal Policy Optimisation (PPO) \citep{schulman2017proximal} is one such approach which has gained immense popularity and has been applied to reinforcement learning with human feedback (RLHF) \citep{lambert2022illustrating}. 
+Proximal Policy Optimisation \citep{schulman2017proximal} is one such approach which has gained immense popularity and has been applied to reinforcement learning with human feedback \citep{lambert2022illustrating}. 
 We believe that our MR estimator proposed in Chapter \ref*{ch:3-mr} applied to these methodologies could lead to improvements in the stability and convergence
 of these optimisation schemes, given its favourable variance properties. 
 Similarly, our conformal off-policy prediction (COPP) algorithm when applied to off-policy learning could be a
-step towards robust policy learning by optimising the worst case outcome \citep{stutz2021learning}.
+step towards robust policy learning by optimising the worst-case outcome \citep{stutz2021learning}.
 
 \paragraph*{Addressing the curse of horizon in sequential decision-making}
 Chapters \ref*{ch:3-mr} and \ref*{ch:4-copp} of this thesis specifically consider OPE in contextual bandits. 
