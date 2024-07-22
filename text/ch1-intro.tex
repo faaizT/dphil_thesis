@@ -68,7 +68,7 @@ However, these estimators come with their own set of limitations, which are desc
 \subsection{High variance of OPE estimators}\label{subsec:high-variance}
 The conventional off-policy value estimators use policy ratios $\rho(a, x) \coloneqq \tar(a\mid x)/\beh(a\mid x)$ as importance weights. 
 In cases where the two policies are significantly different, the policy ratios $\rho(a, x)$ attain extreme values leading to a high variance in the OPE estimators. 
-To alleviate this high variance, \cite{dudik2014doubly} proposed a \emph{Doubly Robust (DR)} estimator for OPE which uses a control variate to decrease the variance of conventional OPE estimators. 
+To alleviate this high variance, \cite{dudik2014doubly} proposed a Doubly Robust (DR) estimator for OPE which uses a control variate to decrease the variance of conventional OPE estimators. 
 % It is also doubly robust in that it yields accurate value estimates if either the importance weights $\rho(a, x)$ or the outcome model $\hat{\mu}(a, x)$ is well estimated \citep{dudik2014doubly, jiang2016doubly}. 
 % The DR estimator for $\Etar[Y]$ can be written as follows:
 % \[
@@ -88,7 +88,7 @@ Besides using control variates (as in DR estimator), several techniques have bee
 
 \paragraph{Trading off variance for bias}
 \cite{swaminathan2015counterfactual, swaminathan2015the, chaudhuri2019london} attempt to bound the importance weights within a certain range to prevent them from becoming excessively large. 
-Besides this, the \emph{Direct Method (DM)} \citep{Beygelzimer2008Offset} avoids the use of importance-sampling by estimating the reward function from observational data.
+Besides this, the Direct Method (DM) \citep{Beygelzimer2008Offset} avoids the use of importance-sampling by estimating the reward function from observational data.
 Similarly, Switch-DR \citep{wang2017optimal} aims to circumvent the high variance in conventional DR estimator by switching to DM when the importance weights are large.
 However, these approaches introduce a bias-variance trade-off, as clipping the weights or using the learned reward function can introduce bias into the estimates. 
 % Like weight clipping, this approach can also increase the bias, since the DM can have a high bias.
